@@ -1,0 +1,232 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:pay-slip-{MM}-{employee_id}",
+ "creation": "2024-09-09 14:56:29.425816",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_0foh",
+  "amended_from",
+  "from",
+  "column_break_gm5b",
+  "to",
+  "section_break_i1vh",
+  "employee_id",
+  "employee_name",
+  "personal_email",
+  "designation",
+  "department",
+  "column_break_zaxe",
+  "pan_number",
+  "date_of_joining",
+  "basic_salary",
+  "per_day_salary",
+  "attendance_device_id",
+  "salary_calculation_section",
+  "standard_working_days",
+  "column_break_3bjj",
+  "actual_working_days",
+  "section_break_3xug",
+  "full_day_workings",
+  "three_quarter_days_workings",
+  "half_days_workings",
+  "quarter_days_workings",
+  "overtime",
+  "lates",
+  "absent",
+  "column_break_fffg",
+  "total_monthly_salary"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_0foh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Pay Slips",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name"
+  },
+  {
+   "fetch_from": "employee.personal_email",
+   "fieldname": "personal_email",
+   "fieldtype": "Data",
+   "label": "Personal Email"
+  },
+  {
+   "fetch_from": "employee.department",
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department"
+  },
+  {
+   "fetch_from": "employee.pan_number",
+   "fieldname": "pan_number",
+   "fieldtype": "Data",
+   "label": "Pan Number"
+  },
+  {
+   "fetch_from": "employee.date_of_joining",
+   "fieldname": "date_of_joining",
+   "fieldtype": "Date",
+   "label": "Date Of Joining"
+  },
+  {
+   "fetch_from": "employee.basic_salary",
+   "fieldname": "basic_salary",
+   "fieldtype": "Currency",
+   "label": "Basic Salary"
+  },
+  {
+   "fieldname": "per_day_salary",
+   "fieldtype": "Currency",
+   "label": "Per Day Salary"
+  },
+  {
+   "fetch_from": "employee.attendance_device_id",
+   "fieldname": "attendance_device_id",
+   "fieldtype": "Int",
+   "label": "Attendance Device Id"
+  },
+  {
+   "fetch_from": "employee.designation",
+   "fieldname": "designation",
+   "fieldtype": "Data",
+   "label": "Designation"
+  },
+  {
+   "fieldname": "full_day_workings",
+   "fieldtype": "Int",
+   "label": "Full Day Workings"
+  },
+  {
+   "fieldname": "three_quarter_days_workings",
+   "fieldtype": "Int",
+   "label": "Three Quarter Days Workings"
+  },
+  {
+   "fieldname": "half_days_workings",
+   "fieldtype": "Int",
+   "label": "Half Days Workings"
+  },
+  {
+   "fieldname": "quarter_days_workings",
+   "fieldtype": "Int",
+   "label": "Quarter Days Workings"
+  },
+  {
+   "fieldname": "lates",
+   "fieldtype": "Int",
+   "label": "Lates"
+  },
+  {
+   "fieldname": "absent",
+   "fieldtype": "Int",
+   "label": "Absent"
+  },
+  {
+   "fieldname": "standard_working_days",
+   "fieldtype": "Int",
+   "label": "Standard Working Days"
+  },
+  {
+   "fieldname": "actual_working_days",
+   "fieldtype": "Int",
+   "label": "Actual Working Days"
+  },
+  {
+   "fieldname": "from",
+   "fieldtype": "Date",
+   "label": "From"
+  },
+  {
+   "fieldname": "to",
+   "fieldtype": "Date",
+   "label": "To"
+  },
+  {
+   "fieldname": "total_monthly_salary",
+   "fieldtype": "Currency",
+   "label": "Total Monthly Salary"
+  },
+  {
+   "fieldname": "column_break_gm5b",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_i1vh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "salary_calculation_section",
+   "fieldtype": "Section Break",
+   "label": "Salary Calculation"
+  },
+  {
+   "fieldname": "column_break_zaxe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_3bjj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_3xug",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_fffg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "employee_id",
+   "fieldtype": "Link",
+   "label": "Employee Id",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "overtime",
+   "fieldtype": "Currency",
+   "label": "Overtime"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2024-09-09 17:06:39.740446",
+ "modified_by": "Administrator",
+ "module": "MYGSTCAFE",
+ "name": "Pay Slips",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

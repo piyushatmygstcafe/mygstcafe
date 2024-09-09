@@ -1,0 +1,74 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-06 15:30:54.065662",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "start_date",
+  "column_break_izvt",
+  "end_date",
+  "column_break_jtxd",
+  "genrate_for_all",
+  "select_company"
+ ],
+ "fields": [
+  {
+   "allow_in_quick_entry": 1,
+   "default": "0",
+   "fieldname": "genrate_for_all",
+   "fieldtype": "Check",
+   "label": "Genrate for all"
+  },
+  {
+   "fieldname": "select_company",
+   "fieldtype": "Link",
+   "label": "Select Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "start_date",
+   "fieldtype": "Date",
+   "label": "Start Date"
+  },
+  {
+   "fieldname": "end_date",
+   "fieldtype": "Date",
+   "label": "End Date"
+  },
+  {
+   "fieldname": "column_break_izvt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_jtxd",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_virtual": 1,
+ "links": [],
+ "modified": "2024-09-07 12:43:08.115306",
+ "modified_by": "Administrator",
+ "module": "MYGSTCAFE",
+ "name": "Pay Slip Generator",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

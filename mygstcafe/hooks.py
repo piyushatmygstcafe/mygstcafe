@@ -5,6 +5,7 @@ app_description = "An app for management"
 app_email = "piyushs@mygstcafe.in"
 app_license = "mit"
 
+
 # Apps
 # ------------------
 
@@ -43,7 +44,7 @@ app_license = "mit"
 # page_js = {"page" : "public/js/file.js"}
 
 # include js in doctype views
-# doctype_js = {"doctype" : "public/js/doctype.js"}
+# doctype_js = {"Employee": "public/js/employee_custom.js"}
 # doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
@@ -137,13 +138,22 @@ app_license = "mit"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	# "*": {
+	# 	"on_update": "method",
+	# 	"on_cancel": "method",
+	# 	"on_trash": "method"
+	# },
+ "Employee":{
+     "onload":"mygstcafe.add_custom_field.add_custom_fields",
+     "onload":"mygstcafe.add_custom_field.remove_custom_fields",
+    #  "on_load":"mygstcafe.mygstcafe.add_custom_field.update_field_properties",
+     },
+ "Attendance":{
+     "onload":"mygstcafe.add_custom_field.add_custom_fields",
+    #  "on_load":"mygstcafe.mygstcafe.add_custom_field.update_field_properties",
+     },
+}
 
 # Scheduled Tasks
 # ---------------
