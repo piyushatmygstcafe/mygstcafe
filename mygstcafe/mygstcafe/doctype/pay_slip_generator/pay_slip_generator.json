@@ -5,9 +5,11 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "start_date",
+  "year",
   "column_break_izvt",
-  "end_date",
+  "select_month",
+  "month",
+  "working_days",
   "column_break_jtxd",
   "genrate_for_all",
   "select_company"
@@ -27,28 +29,41 @@
    "options": "Company"
   },
   {
-   "fieldname": "start_date",
-   "fieldtype": "Date",
-   "label": "Start Date"
-  },
-  {
-   "fieldname": "end_date",
-   "fieldtype": "Date",
-   "label": "End Date"
-  },
-  {
    "fieldname": "column_break_izvt",
    "fieldtype": "Column Break"
   },
   {
    "fieldname": "column_break_jtxd",
    "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "year",
+   "fieldtype": "Data",
+   "label": "Year"
+  },
+  {
+   "fieldname": "month",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Month"
+  },
+  {
+   "fieldname": "select_month",
+   "fieldtype": "Select",
+   "label": "Select Month",
+   "options": "Select\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember"
+  },
+  {
+   "fieldname": "working_days",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Working Days"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_virtual": 1,
  "links": [],
- "modified": "2024-09-07 12:43:08.115306",
+ "modified": "2024-09-10 12:11:38.606928",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Pay Slip Generator",

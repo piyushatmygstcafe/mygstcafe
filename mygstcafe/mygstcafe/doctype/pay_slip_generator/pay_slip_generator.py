@@ -12,13 +12,11 @@ class PaySlipGenerator(Document):
 
     def get_emp_records(self):
         company = self.select_company
-        start_date = self.start_date
-        end_date = self.end_date
-        start_date = datetime.strptime(self.start_date, "%Y-%m-%d").date()
-        end_date = datetime.strptime(self.end_date, "%Y-%m-%d").date()
+        year = self.year
+        month = self.month
 
         # Calculate the total working days
-        total_working_days = (end_date - start_date).days + 1
+        total_working_days = self.working_days
         if company:
             records = frappe.db.sql("""
                 SELECT
@@ -40,11 +38,8 @@ class PaySlipGenerator(Document):
                     tabAttendance a
                 ON
                     e.employee = a.employee
-                WHERE
-                    e.company = %s;
-                AND
-                a.attendance_date BETWEEN %s AND %s
-            """, (company,start_date,end_date), as_dict=False)
+                WHERE YEAR(attendance_date) = %s AND MONTH(attendance_date) = %s
+            """, (company,year,month), as_dict=False)
         else:
             records = frappe.db.sql("""
                 SELECT
@@ -66,9 +61,8 @@ class PaySlipGenerator(Document):
                     tabAttendance a
                 ON
                     e.employee = a.employee
-                AND
-                a.attendance_date BETWEEN %s AND %s
-            """,(start_date,end_date),as_dict=False)
+                WHERE YEAR(attendance_date) = %s AND MONTH(attendance_date) = %s
+            """,(year,month),as_dict=False)
             
         
         emp_records = defaultdict(lambda: {
@@ -143,8 +137,6 @@ class PaySlipGenerator(Document):
                 new_doc = frappe.get_doc({
                     'doctype':'Pay Slips',
                     'docstatus': 0,
-                    'from':start_date,
-                    'to':end_date,
                     'employee_id':employee_id,
                     'employee_name':employee_name,
                     'personal_email':personal_email,
@@ -170,7 +162,7 @@ class PaySlipGenerator(Document):
                 new_doc.insert()
                 frappe.db.commit()
                 frappe.msgprint(f"Pay Slip created for {employee_id} ")
-    
+        frappe.msgprint(str(dict(employee_data)))
         create_pay_slips(employee_data)
 
     def db_insert(self, *args, **kwargs):

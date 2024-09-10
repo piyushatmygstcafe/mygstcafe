@@ -54,21 +54,21 @@ def calculate_monthly_salary(employee_data,total_working_days):
                     actual_working_days += 1
                     total_salary += 0.25 * per_day_salary
                 else:
-                    total_absents += 1
-                    total_salary += 0 
+                    overtime_salry = 0
+                    if total_working_hours >10.125 and out_time > overtime_threshold:
+                        extra_time = out_time - ideal_check_out_time
+                        overtime = extra_time.total_seconds() / 60
+                        min_overtime_salary = per_day_salary/540
+                        overtime_salry = overtime * min_overtime_salary 
             
                 if in_time > ideal_check_in_time:
                     lates += 1
                     late_deduction = 0.10 * per_day_salary
                     total_late_deductions += late_deduction
             else:
-                overtime_salry = 0
-                if total_working_hours >10.125 and out_time > overtime_threshold:
-                    extra_time = out_time - ideal_check_out_time
-                    overtime = extra_time.total_seconds() / 60
-                    min_overtime_salary = per_day_salary/540
-                    overtime_salry = overtime * min_overtime_salary 
+                total_absents += 1
                 total_salary += 0
+                
         
         total_salary -= total_late_deductions
         
