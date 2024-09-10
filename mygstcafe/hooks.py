@@ -5,6 +5,7 @@ app_description = "An app for management"
 app_email = "piyushs@mygstcafe.in"
 app_license = "mit"
 
+import mygstcafe.override_auth
 
 # Apps
 # ------------------
