@@ -8,9 +8,6 @@
  "field_order": [
   "section_break_0foh",
   "amended_from",
-  "from",
-  "column_break_gm5b",
-  "to",
   "section_break_i1vh",
   "employee_id",
   "employee_name",
@@ -23,10 +20,6 @@
   "basic_salary",
   "per_day_salary",
   "attendance_device_id",
-  "salary_calculation_section",
-  "standard_working_days",
-  "column_break_3bjj",
-  "actual_working_days",
   "section_break_3xug",
   "full_day_workings",
   "three_quarter_days_workings",
@@ -137,54 +130,23 @@
    "label": "Absent"
   },
   {
-   "fieldname": "standard_working_days",
-   "fieldtype": "Int",
-   "label": "Standard Working Days"
-  },
-  {
-   "fieldname": "actual_working_days",
-   "fieldtype": "Int",
-   "label": "Actual Working Days"
-  },
-  {
-   "fieldname": "from",
-   "fieldtype": "Date",
-   "label": "From"
-  },
-  {
-   "fieldname": "to",
-   "fieldtype": "Date",
-   "label": "To"
-  },
-  {
    "fieldname": "total_monthly_salary",
    "fieldtype": "Currency",
    "label": "Total Monthly Salary"
   },
   {
-   "fieldname": "column_break_gm5b",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "section_break_i1vh",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "salary_calculation_section",
    "fieldtype": "Section Break",
-   "label": "Salary Calculation"
+   "label": "Employee Information"
   },
   {
    "fieldname": "column_break_zaxe",
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "column_break_3bjj",
-   "fieldtype": "Column Break"
-  },
-  {
    "fieldname": "section_break_3xug",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Salary Calculation"
   },
   {
    "fieldname": "column_break_fffg",
@@ -205,7 +167,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-09-09 17:06:39.740446",
+ "modified": "2024-09-10 12:22:11.698796",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Pay Slips",

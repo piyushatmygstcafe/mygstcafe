@@ -38,7 +38,7 @@ class PaySlipGenerator(Document):
                     tabAttendance a
                 ON
                     e.employee = a.employee
-                WHERE YEAR(attendance_date) = %s AND MONTH(attendance_date) = %s
+                WHERE a.company = %s AND YEAR(a.attendance_date) = %s AND MONTH(a.attendance_date) = %s
             """, (company,year,month), as_dict=False)
         else:
             records = frappe.db.sql("""
@@ -61,7 +61,7 @@ class PaySlipGenerator(Document):
                     tabAttendance a
                 ON
                     e.employee = a.employee
-                WHERE YEAR(attendance_date) = %s AND MONTH(attendance_date) = %s
+                WHERE YEAR(a.attendance_date) = %s AND MONTH(a.attendance_date) = %s
             """,(year,month),as_dict=False)
             
         
@@ -163,7 +163,7 @@ class PaySlipGenerator(Document):
                 frappe.db.commit()
                 frappe.msgprint(f"Pay Slip created for {employee_id} ")
         frappe.msgprint(str(dict(employee_data)))
-        create_pay_slips(employee_data)
+        # create_pay_slips(employee_data)
 
     def db_insert(self, *args, **kwargs):
         frappe.throw(_("Cannot insert or save a Virtual DocType"))
