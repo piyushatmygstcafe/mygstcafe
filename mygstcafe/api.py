@@ -2,22 +2,7 @@ import frappe
 import frappe.defaults
 from frappe import _
 import json
-
-@frappe.whitelist(allow_guest=True)
-def get_sales_data():
-    data = frappe.db.sql("""
-                         
-                         SELECT * FROM `tabSales Invoice`
-                         
-                         """,as_dict=True)
-    
-    return frappe.render_template("mygstcafe/templates/includes/e_invoicing.html", {"data": data})
-
-@frappe.whitelist(allow_guest=True)
-def get_sale_invoice(id):
-    invoice = frappe.get_doc('Sales Invoice', id)
-    invoice_dict = invoice.as_dict()
-    return invoice_dict
+import uuid
 
 # API to get default company and list
 @frappe.whitelist(allow_guest=True)
@@ -62,3 +47,42 @@ def get_item_defaults():
     default_company = frappe.db.get_value("DefaultValue", {"parent": user, "defkey": "company"}, "defvalue")
     
     return default_company
+
+# API to get pay slips
+@frappe.whitelist(allow_guest=True)
+def get_pay_slip_list(month, parent_docname):
+    pay_slip_list = frappe.db.sql("""
+        SELECT name, employee_id, total_monthly_salary 
+        FROM `tabPay Slips` 
+        WHERE MONTH(creation) = %s
+    """, (month,), as_dict=True)
+    
+    created_pay_slips = []
+
+    for pay_slip in pay_slip_list:
+        generated_name = str(uuid.uuid4())  # Generate a unique ID for the name field
+        frappe.db.sql("""
+            INSERT INTO `tabCreated Pay Slips` (
+                `name`, `pay_slip`, `employee`, `salary`, `parent`, `parenttype`, `parentfield`
+            ) VALUES (%s, %s, %s, %s, %s, %s, %s);
+        """, (
+            generated_name,                 # name
+            pay_slip['name'],               # pay_slip
+            pay_slip['employee_id'],        # employee
+            pay_slip['total_monthly_salary'],# salary
+            parent_docname,                 # parent
+            'Create Pay Slips',             # parenttype
+            'created_pay_slips'             # parentfield
+        ))
+        created_pay_slips.append({
+            'name': generated_name,
+            'pay_slip': pay_slip['name'],
+            'employee': pay_slip['employee_id'],
+            'salary': pay_slip['total_monthly_salary'],
+            'parent': parent_docname,
+            'parenttype': 'Create Pay Slips',
+            'parentfield': 'created_pay_slips'
+        })
+
+    return created_pay_slips
+

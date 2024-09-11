@@ -28,7 +28,9 @@ import mygstcafe.override_auth
 
 # include js, css files in header of desk.html
 # app_include_css = "/assets/mygstcafe/css/mygstcafe.css"
-# app_include_js = "/assets/mygstcafe/js/mygstcafe.js"
+# app_include_js = [
+#     "/assets/mygstcafe/js/customScript.js"
+# ]
 
 # include js, css files in header of web template
 # web_include_css = "/assets/mygstcafe/css/mygstcafe.css"
@@ -46,7 +48,7 @@ import mygstcafe.override_auth
 
 # include js in doctype views
 # doctype_js = {"Employee": "public/js/employee_custom.js"}
-# doctype_list_js = {"doctype" : "public/js/doctype_list.js"}
+doctype_list_js = {"attendance" : "public/js/attendance_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 

@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"V14h1-91f2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MYGSTCAFE</span>\",\"col\":12}},{\"id\":\"gH1kAI-Cmq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slips\",\"col\":3}},{\"id\":\"yki_fPQ-0r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Generate Pay Slip\",\"col\":3}}]",
+ "content": "[{\"id\":\"V14h1-91f2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MYGSTCAFE</span>\",\"col\":12}},{\"id\":\"gH1kAI-Cmq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slips\",\"col\":3}},{\"id\":\"yki_fPQ-0r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create Pay Slips\",\"col\":3}}]",
  "creation": "2024-09-04 13:30:55.175888",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "MYGSTCAFE",
  "links": [],
- "modified": "2024-09-09 17:09:48.792656",
+ "modified": "2024-09-11 18:57:30.371081",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "MYGSTCAFE",
@@ -28,8 +28,8 @@
   {
    "color": "Grey",
    "doc_view": "New",
-   "label": "Generate Pay Slip",
-   "link_to": "Pay Slip Generator",
+   "label": "Create Pay Slips",
+   "link_to": "Create Pay Slips",
    "stats_filter": "[]",
    "type": "DocType"
   },

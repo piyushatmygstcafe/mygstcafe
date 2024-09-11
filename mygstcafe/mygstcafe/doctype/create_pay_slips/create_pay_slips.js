@@ -1,13 +1,36 @@
 // Copyright (c) 2024, mygstcafe and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on("Pay Slip Generator", {
+frappe.ui.form.on("Create Pay Slips", {
   refresh(frm) {
     let currentYear = new Date().getFullYear();
-    frm.set_value("year", currentYear);
-    frm.set_value("select_company", "");
+    if (!frm.doc.year) {
+      frm.set_value("year", currentYear);
+    }
+    if (frm.doc.add_regenrate_button) {
+      frm.add_custom_button("Regenrate Pay Slip", () => {
+        frappe.msgprint("Pay Slip Regenrated!");
+      });
+    }
   },
-  
+  before_save(frm) {
+    frm.set_value('add_regenrate_button',1)
+  },
+  after_save: function (frm) {
+    frappe.call({
+      method: "mygstcafe.api.get_pay_slip_list",
+      args: {
+        month: frm.doc.month,
+        parent_docname: frm.docname,
+      },
+      callback: function (res) {
+        frm.reload_doc();
+      },
+      error: function (r) {
+        frappe.msgprint(r.message);
+      },
+    });
+  },
   select_month: function (frm) {
     let select_month = frm.doc.select_month;
     let currentMonth;
@@ -60,7 +83,11 @@ frappe.ui.form.on("Pay Slip Generator", {
     let workingDays;
     if (currentMonth === 2) {
       // Check for leap year
-      workingDays = (frm.doc.year % 4 === 0 && frm.doc.year % 100 !== 0) || frm.doc.year % 400 === 0 ? 29 : 28;
+      workingDays =
+        (frm.doc.year % 4 === 0 && frm.doc.year % 100 !== 0) ||
+        frm.doc.year % 400 === 0
+          ? 29
+          : 28;
     } else if ([4, 6, 9, 11].includes(currentMonth)) {
       workingDays = 30;
     } else {
@@ -73,7 +100,6 @@ frappe.ui.form.on("Pay Slip Generator", {
   genrate_for_all: function (frm) {
     if (frm.doc.genrate_for_all) {
       frm.set_df_property("select_company", "hidden", 1);
-      frm.set_value("select_company", "");
     } else {
       frm.set_df_property("select_company", "hidden", 0);
     }

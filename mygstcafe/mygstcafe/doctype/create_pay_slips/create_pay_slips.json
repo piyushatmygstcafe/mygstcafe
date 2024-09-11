@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "format:pay-slip-{YYYY}-{MM}",
  "creation": "2024-09-06 15:30:54.065662",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -12,7 +13,12 @@
   "working_days",
   "column_break_jtxd",
   "genrate_for_all",
-  "select_company"
+  "add_regenrate_button",
+  "select_company",
+  "generated_pay_slips_tab",
+  "generated_pay_slips_section",
+  "add_pay_slips",
+  "created_pay_slips"
  ],
  "fields": [
   {
@@ -39,7 +45,9 @@
   {
    "fieldname": "year",
    "fieldtype": "Data",
-   "label": "Year"
+   "in_list_view": 1,
+   "label": "Year",
+   "reqd": 1
   },
   {
    "fieldname": "month",
@@ -50,23 +58,55 @@
   {
    "fieldname": "select_month",
    "fieldtype": "Select",
+   "in_list_view": 1,
    "label": "Select Month",
-   "options": "Select\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember"
+   "options": "Select\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember",
+   "reqd": 1
   },
   {
    "fieldname": "working_days",
    "fieldtype": "Int",
    "hidden": 1,
    "label": "Working Days"
+  },
+  {
+   "fieldname": "generated_pay_slips_section",
+   "fieldtype": "Section Break",
+   "label": "Generated Pay Slips"
+  },
+  {
+   "fieldname": "generated_pay_slips_tab",
+   "fieldtype": "Tab Break",
+   "label": "Pay Slips"
+  },
+  {
+   "fieldname": "created_pay_slips",
+   "fieldtype": "Table",
+   "label": "Created Pay Slips",
+   "options": "Created Pay Slips"
+  },
+  {
+   "default": "1",
+   "fieldname": "add_pay_slips",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Add pay slips"
+  },
+  {
+   "default": "0",
+   "fieldname": "add_regenrate_button",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Add regenrate button"
   }
  ],
  "index_web_pages_for_search": 1,
- "is_virtual": 1,
  "links": [],
- "modified": "2024-09-10 12:11:38.606928",
+ "modified": "2024-09-11 18:12:02.968804",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
- "name": "Pay Slip Generator",
+ "name": "Create Pay Slips",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {
@@ -82,7 +122,6 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

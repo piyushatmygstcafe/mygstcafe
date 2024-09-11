@@ -6,7 +6,7 @@ from frappe.model.document import Document
 from collections import defaultdict
 from mygstcafe.salary_calculation import calculate_monthly_salary
 
-class PaySlipGenerator(Document):
+class CreatePaySlips(Document):
 
     def get_emp_records(self):
         company = self.select_company
@@ -140,3 +140,4 @@ class PaySlipGenerator(Document):
 
     def before_save(self):
         self.get_emp_records()
+        

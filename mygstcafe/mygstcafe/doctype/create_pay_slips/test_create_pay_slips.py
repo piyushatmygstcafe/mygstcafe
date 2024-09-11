@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestPaySlipGenerator(FrappeTestCase):
+class TestCreatePaySlips(FrappeTestCase):
 	pass
