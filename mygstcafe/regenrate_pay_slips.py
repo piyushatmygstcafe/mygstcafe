@@ -27,6 +27,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
         e.employee,
         e.employee_name,
         e.personal_email,
+        e.company,
         e.designation,
         e.department,
         e.pan_number,
@@ -61,6 +62,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
         "employee": "",
         "employee_name": "",
         "personal_email": "",
+        "company":"",
         "designation": "",
         "department": "",
         "pan_number": "",
@@ -88,6 +90,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
         else:
             # Add new employee data
             emp_records[employee_id] = {
+                "company":record.get('company'),
                 "employee": employee_id,
                 "employee_name": record.get('employee_name'),
                 "personal_email": record.get('personal_email'),
@@ -126,6 +129,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
         
         # Update the fields
         pay_slip.update({
+            'company':data.get("company"),
             'employee_id': data.get("employee"),
             'employee_name': data.get("employee_name"),
             'personal_email': data.get("personal_email"),

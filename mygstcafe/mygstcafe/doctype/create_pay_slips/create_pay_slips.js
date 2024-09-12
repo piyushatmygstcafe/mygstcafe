@@ -61,6 +61,8 @@ frappe.ui.form.on("Create Pay Slips", {
         );
       });
     }
+
+   
   },
 
   before_save(frm) {
@@ -87,23 +89,6 @@ frappe.ui.form.on("Create Pay Slips", {
     let select_month = frm.doc.select_month;
     let currentMonth = get_month(select_month);
     frm.set_value("month", currentMonth);
-
-    // Calculate working days based on the selected month
-    let workingDays;
-    if (currentMonth === 2) {
-      // Check for leap year
-      workingDays =
-        (frm.doc.year % 4 === 0 && frm.doc.year % 100 !== 0) ||
-        frm.doc.year % 400 === 0
-          ? 29
-          : 28;
-    } else if ([4, 6, 9, 11].includes(currentMonth)) {
-      workingDays = 30;
-    } else {
-      workingDays = 31;
-    }
-
-    frm.set_value("working_days", workingDays);
   },
 
   genrate_for_all(frm) {

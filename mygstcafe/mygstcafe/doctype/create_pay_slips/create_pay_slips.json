@@ -10,7 +10,6 @@
   "column_break_izvt",
   "select_month",
   "month",
-  "working_days",
   "column_break_jtxd",
   "genrate_for_all",
   "add_regenrate_button",
@@ -64,12 +63,6 @@
    "reqd": 1
   },
   {
-   "fieldname": "working_days",
-   "fieldtype": "Int",
-   "hidden": 1,
-   "label": "Working Days"
-  },
-  {
    "fieldname": "generated_pay_slips_section",
    "fieldtype": "Section Break",
    "label": "Generated Pay Slips"
@@ -102,7 +95,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-11 18:12:02.968804",
+ "modified": "2024-09-12 18:26:40.271098",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Create Pay Slips",
