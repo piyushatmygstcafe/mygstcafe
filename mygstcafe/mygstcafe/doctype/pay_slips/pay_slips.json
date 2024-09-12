@@ -29,6 +29,8 @@
   "lates",
   "absent",
   "column_break_fffg",
+  "standard_working_days",
+  "actual_working_days",
   "total_monthly_salary"
  ],
  "fields": [
@@ -162,12 +164,24 @@
    "fieldname": "overtime",
    "fieldtype": "Currency",
    "label": "Overtime"
+  },
+  {
+   "fieldname": "standard_working_days",
+   "fieldtype": "Int",
+   "label": "Standard Working Days",
+   "read_only": 1
+  },
+  {
+   "fieldname": "actual_working_days",
+   "fieldtype": "Int",
+   "label": "Actual Working Days",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-09-11 12:09:18.386500",
+ "modified": "2024-09-12 12:29:06.959641",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Pay Slips",

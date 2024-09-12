@@ -8,15 +8,66 @@ frappe.ui.form.on("Create Pay Slips", {
       frm.set_value("year", currentYear);
     }
     if (frm.doc.add_regenrate_button) {
-      frm.add_custom_button("Regenrate Pay Slip", () => {
-        frappe.msgprint("Pay Slip Regenrated!");
+      frm.add_custom_button("Regenerate Pay Slip", () => {
+        frappe.prompt(
+          [
+            {
+              label: "Select Year",
+              fieldname: "year",
+              fieldtype: "Data",
+              default: frm.doc.year,
+            },
+            {
+              label: "Select Month",
+              fieldname: "month",
+              fieldtype: "Select",
+              options: [
+                "Select",
+                "January",
+                "February",
+                "March",
+                "April",
+                "May",
+                "June",
+                "July",
+                "August",
+                "September",
+                "October",
+                "November",
+                "December",
+              ],
+            },
+            {
+              label: "Select Employee",
+              fieldname: "employee",
+              fieldtype: "Link",
+              options: "Employee",
+            },
+          ],
+          (values) => {
+            let month = get_month(values.month);
+            frappe.call({
+              method: "mygstcafe.regenrate_pay_slips.regenerate_pay_slip",
+              args: {
+                selected_year: values.year,
+                selected_month: month,
+                selected_emp: values.employee,
+              },
+              callback: function (res) {
+                console.log(res);
+              },
+            });
+          }
+        );
       });
     }
   },
+
   before_save(frm) {
-    frm.set_value('add_regenrate_button',1)
+    frm.set_value("add_regenrate_button", 1);
   },
-  after_save: function (frm) {
+
+  after_save(frm) {
     frappe.call({
       method: "mygstcafe.api.get_pay_slip_list",
       args: {
@@ -31,52 +82,10 @@ frappe.ui.form.on("Create Pay Slips", {
       },
     });
   },
-  select_month: function (frm) {
+
+  select_month(frm) {
     let select_month = frm.doc.select_month;
-    let currentMonth;
-
-    switch (select_month) {
-      case "January":
-        currentMonth = 1;
-        break;
-      case "February":
-        currentMonth = 2;
-        break;
-      case "March":
-        currentMonth = 3;
-        break;
-      case "April":
-        currentMonth = 4;
-        break;
-      case "May":
-        currentMonth = 5;
-        break;
-      case "June":
-        currentMonth = 6;
-        break;
-      case "July":
-        currentMonth = 7;
-        break;
-      case "August":
-        currentMonth = 8;
-        break;
-      case "September":
-        currentMonth = 9;
-        break;
-      case "October":
-        currentMonth = 10;
-        break;
-      case "November":
-        currentMonth = 11;
-        break;
-      case "December":
-        currentMonth = 12;
-        break;
-      default:
-        console.log("Invalid month");
-        return; // Exit if an invalid month is selected
-    }
-
+    let currentMonth = get_month(select_month);
     frm.set_value("month", currentMonth);
 
     // Calculate working days based on the selected month
@@ -97,11 +106,58 @@ frappe.ui.form.on("Create Pay Slips", {
     frm.set_value("working_days", workingDays);
   },
 
-  genrate_for_all: function (frm) {
-    if (frm.doc.genrate_for_all) {
-      frm.set_df_property("select_company", "hidden", 1);
-    } else {
-      frm.set_df_property("select_company", "hidden", 0);
-    }
+  genrate_for_all(frm) {
+    frm.set_df_property(
+      "select_company",
+      "hidden",
+      frm.doc.genrate_for_all ? 1 : 0
+    );
   },
 });
+
+function get_month(month) {
+  let currentMonth;
+  switch (month) {
+    case "January":
+      currentMonth = 1;
+      break;
+    case "February":
+      currentMonth = 2;
+      break;
+    case "March":
+      currentMonth = 3;
+      break;
+    case "April":
+      currentMonth = 4;
+      break;
+    case "May":
+      currentMonth = 5;
+      break;
+    case "June":
+      currentMonth = 6;
+      break;
+    case "July":
+      currentMonth = 7;
+      break;
+    case "August":
+      currentMonth = 8;
+      break;
+    case "September":
+      currentMonth = 9;
+      break;
+    case "October":
+      currentMonth = 10;
+      break;
+    case "November":
+      currentMonth = 11;
+      break;
+    case "December":
+      currentMonth = 12;
+      break;
+    default:
+      console.log("Invalid month");
+      return null; // Exit if an invalid month is selected
+  }
+
+  return currentMonth;
+}
