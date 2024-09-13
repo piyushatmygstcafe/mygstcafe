@@ -9,18 +9,23 @@
   "section_break_0foh",
   "amended_from",
   "section_break_i1vh",
+  "year",
   "company",
   "employee_id",
   "employee_name",
   "personal_email",
   "designation",
   "department",
+  "standard_working_days",
   "column_break_zaxe",
+  "month",
+  "for_month",
   "pan_number",
   "date_of_joining",
   "attendance_device_id",
   "basic_salary",
   "per_day_salary",
+  "actual_working_days",
   "full_day_working",
   "full_day_working_days",
   "column_break_goxs",
@@ -31,16 +36,6 @@
   "full_day_working_effective_percent",
   "column_break_drah",
   "full_day_working_amount",
-  "half_day_working",
-  "half_day_working_days",
-  "column_break_3uf3",
-  "half_day_working_rate",
-  "column_break_kg02",
-  "half_day_working_total",
-  "column_break_ufkr",
-  "half_day_working_effective_percent",
-  "column_break_09uz",
-  "half_day_working_amount",
   "quarter_day_working",
   "quarter_day_working_days",
   "column_break_2v9e",
@@ -51,16 +46,26 @@
   "quarter_day_working_effective_percent",
   "column_break_bbrb",
   "quarter_day_working_amount",
-  "3_4_day_working",
-  "3_4_quarter_days_working_days",
+  "half_day_working",
+  "half_day_working_days",
+  "column_break_3uf3",
+  "half_day_working_rate",
+  "column_break_kg02",
+  "half_day_working_total",
+  "column_break_ufkr",
+  "half_day_working_effective_percent",
+  "column_break_09uz",
+  "half_day_working_amount",
+  "3_4_quarter_day_working",
+  "three_four_quarter_days_working_days",
   "column_break_0kbg",
-  "3_4_quarter_days_rate",
+  "three_four_quarter_days_rate",
   "column_break_rjqy",
-  "3_4_quarter_day_working_total",
+  "three_four_quarter_day_working_total",
   "column_break_ms4w",
-  "3_4_quarter_days_working_effective_percent",
+  "three_four_quarter_days_working_effective_percent",
   "column_break_clqz",
-  "3_4_quarter_days_working_amount",
+  "three_four_quarter_days_working_amount",
   "lates",
   "lates_days",
   "column_break_zzdc",
@@ -276,6 +281,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "column_break_t4dj",
    "fieldtype": "Column Break"
   },
@@ -288,31 +294,30 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "3_4_day_working",
-   "fieldtype": "Section Break",
-   "label": "3/4 Day Working"
-  },
-  {
    "fieldname": "sundays_working_section",
    "fieldtype": "Section Break",
    "label": "Sundays Working"
   },
   {
+   "default": "0",
    "fieldname": "sundays_working_days",
    "fieldtype": "Int",
    "label": "Days"
   },
   {
+   "default": "0",
    "fieldname": "sunday_working_rate",
    "fieldtype": "Int",
    "label": "Rate"
   },
   {
+   "default": "0",
    "fieldname": "sunday_working_total",
    "fieldtype": "Int",
    "label": "total"
   },
   {
+   "default": "0",
    "fieldname": "sunday_working_amount",
    "fieldtype": "Currency",
    "label": "Amount"
@@ -339,16 +344,19 @@
    "label": "Other Earnings"
   },
   {
+   "default": "0",
    "fieldname": "other_earnings_incentives",
    "fieldtype": "Currency",
    "label": "Incentives"
   },
   {
+   "default": "0",
    "fieldname": "other_earning_project_deadline_allowance",
    "fieldtype": "Currency",
    "label": "Project Deadline Allowance"
   },
   {
+   "default": "0",
    "fieldname": "other_earnings_special_incentives",
    "fieldtype": "Currency",
    "label": "Special Incentives"
@@ -366,6 +374,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "other_earnings_amount",
    "fieldtype": "Currency",
    "label": "Amount"
@@ -376,6 +385,7 @@
    "label": "Other Adjustments"
   },
   {
+   "default": "0",
    "fieldname": "adjustments",
    "fieldtype": "Currency",
    "label": "Adjustments"
@@ -385,14 +395,16 @@
    "fieldtype": "Section Break"
   },
   {
+   "default": "0",
    "fieldname": "absent",
    "fieldtype": "Int",
    "label": "Absent"
   },
   {
+   "default": "0",
    "fieldname": "total_monthly_salary",
    "fieldtype": "Currency",
-   "label": "Total Monthly Salary"
+   "label": "Total Monthly Salary [Full Day Working + Quarter Day Working + Half Day Working + 3/4 Quarter Day Working - Amount of Lates]"
   },
   {
    "fieldname": "net_payable_amount_section",
@@ -400,6 +412,7 @@
    "label": "Net Payable Amount"
   },
   {
+   "default": "0",
    "fieldname": "net_payble_amount",
    "fieldtype": "Currency",
    "label": "Total Monthly Salary + Sundays Working + Other Earnings - Adjustments"
@@ -429,21 +442,25 @@
    "label": "Effective Percent"
   },
   {
+   "default": "0",
    "fieldname": "full_day_working_amount",
    "fieldtype": "Currency",
    "label": "Amount"
   },
   {
+   "default": "0",
    "fieldname": "half_day_working_days",
    "fieldtype": "Int",
    "label": "Days"
   },
   {
+   "default": "0",
    "fieldname": "half_day_working_rate",
    "fieldtype": "Currency",
    "label": "Rate"
   },
   {
+   "default": "0",
    "fieldname": "half_day_working_total",
    "fieldtype": "Int",
    "label": "Total"
@@ -455,21 +472,25 @@
    "label": "Effective Percent"
   },
   {
+   "default": "0",
    "fieldname": "half_day_working_amount",
    "fieldtype": "Currency",
    "label": "Amount"
   },
   {
+   "default": "0",
    "fieldname": "quarter_day_working_days",
    "fieldtype": "Int",
    "label": "Days"
   },
   {
+   "default": "0",
    "fieldname": "quarter_day_working_rate",
    "fieldtype": "Currency",
    "label": "Rate"
   },
   {
+   "default": "0",
    "fieldname": "quarter_day_working_total",
    "fieldtype": "Int",
    "label": "Total"
@@ -481,42 +502,19 @@
    "label": "Effective Percent "
   },
   {
+   "default": "0",
    "fieldname": "quarter_day_working_amount",
    "fieldtype": "Currency",
    "label": "Amount"
   },
   {
-   "fieldname": "3_4_quarter_days_working_days",
-   "fieldtype": "Int",
-   "label": "Days"
-  },
-  {
-   "fieldname": "3_4_quarter_days_rate",
-   "fieldtype": "Currency",
-   "label": "Rate"
-  },
-  {
-   "fieldname": "3_4_quarter_day_working_total",
-   "fieldtype": "Int",
-   "label": "Total"
-  },
-  {
-   "default": "25",
-   "fieldname": "3_4_quarter_days_working_effective_percent",
-   "fieldtype": "Percent",
-   "label": "Effective Percent"
-  },
-  {
-   "fieldname": "3_4_quarter_days_working_amount",
-   "fieldtype": "Currency",
-   "label": "Amount"
-  },
-  {
+   "default": "0",
    "fieldname": "lates_days",
    "fieldtype": "Int",
    "label": "Days"
   },
   {
+   "default": "0",
    "fieldname": "lates_rate",
    "fieldtype": "Currency",
    "label": "Rate"
@@ -533,6 +531,7 @@
    "label": "Effective Percent"
   },
   {
+   "default": "0",
    "fieldname": "lates_amount",
    "fieldtype": "Currency",
    "label": "Amount"
@@ -548,15 +547,77 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "other_earnings_overtime",
    "fieldtype": "Currency",
    "label": "Overtime"
+  },
+  {
+   "default": "0",
+   "fieldname": "three_four_quarter_days_working_days",
+   "fieldtype": "Int",
+   "label": "Days"
+  },
+  {
+   "default": "0",
+   "fieldname": "three_four_quarter_days_rate",
+   "fieldtype": "Currency",
+   "label": "Rate"
+  },
+  {
+   "default": "0",
+   "fieldname": "three_four_quarter_day_working_total",
+   "fieldtype": "Int",
+   "label": "Total"
+  },
+  {
+   "default": "25",
+   "fieldname": "three_four_quarter_days_working_effective_percent",
+   "fieldtype": "Percent",
+   "label": "Effective Percent"
+  },
+  {
+   "default": "0",
+   "fieldname": "three_four_quarter_days_working_amount",
+   "fieldtype": "Currency",
+   "label": "Amount"
+  },
+  {
+   "fieldname": "3_4_quarter_day_working",
+   "fieldtype": "Section Break",
+   "label": "3/4 Quarter Day Working"
+  },
+  {
+   "fieldname": "month",
+   "fieldtype": "Data",
+   "label": "Month"
+  },
+  {
+   "fieldname": "year",
+   "fieldtype": "Data",
+   "label": "Year"
+  },
+  {
+   "fieldname": "for_month",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "For Month"
+  },
+  {
+   "fieldname": "standard_working_days",
+   "fieldtype": "Int",
+   "label": "Standard Working Days"
+  },
+  {
+   "fieldname": "actual_working_days",
+   "fieldtype": "Int",
+   "label": "Actual Working Days"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-09-12 18:43:20.959957",
+ "modified": "2024-09-13 13:20:33.177568",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Pay Slips",

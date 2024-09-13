@@ -9,7 +9,6 @@ from mygstcafe.salary_calculation import calculate_monthly_salary
 class CreatePaySlips(Document):
 
     def get_emp_records(self):
-        #  = self.select_
         year = self.year
         month = int(self.month)
 
@@ -25,10 +24,10 @@ class CreatePaySlips(Document):
         else:
             working_days = 31
         
-        
         # Construct the base query
         base_query = """
             SELECT
+                e.company,
                 e.employee,
                 e.employee_name,
                 e.personal_email,
@@ -49,20 +48,16 @@ class CreatePaySlips(Document):
                 YEAR(a.attendance_date) = %s AND MONTH(a.attendance_date) = %s
         """
         
-        # Add the  filter if provided
         filters = [year, month]
-        # if :
-        #     base_query += " AND a. = %s"
-        #     filters.append()
         
         records = frappe.db.sql(base_query, filters, as_dict=False)
         
         # Initialize a defaultdict to organize employee records
         emp_records = defaultdict(lambda: {
+            "company":"",
             "employee": "",
             "employee_name": "",
             "personal_email": "",
-            "":"",
             "designation": "",
             "department": "",
             "pan_number": "",
@@ -76,7 +71,7 @@ class CreatePaySlips(Document):
         # Populate employee records from the query results
         for record in records:
             (
-                employee_id, employee_name, personal_email, designation, department,
+                company,employee_id, employee_name, personal_email, designation, department,
                 pan_number, date_of_joining, basic_salary, attendance_device_id,
                 attendance_date, in_time, out_time
             ) = record
@@ -91,6 +86,7 @@ class CreatePaySlips(Document):
             else:
                 # Add new employee data
                 emp_records[employee_id] = {
+                    "company":company,
                     "employee": employee_id,
                     "employee_name": employee_name,
                     "personal_email": personal_email,
@@ -110,11 +106,11 @@ class CreatePaySlips(Document):
                 
         # Calculate monthly salary for each employee
         employee_data = calculate_monthly_salary(emp_records, working_days)
-        # frappe.msgprint(str(dict(emp_records)))
+        
         # Create pay slips and save them
-        self.create_pay_slips(employee_data)
+        self.create_pay_slips(employee_data,month,year)
 
-    def create_pay_slips(self, employee_data):
+    def create_pay_slips(self, employee_data,month,year):
         for emp_id, data in employee_data.items():
             salary_info = data.get("salary_information", {})
             
@@ -122,7 +118,9 @@ class CreatePaySlips(Document):
             new_doc = frappe.get_doc({
                 'doctype': 'Pay Slips',
                 'docstatus': 0,
-                '':data.get(""),
+                'for_month':month,
+                'year':year,
+                'company':data.get("company"),
                 'employee_id': data.get("employee"),
                 'employee_name': data.get("employee_name"),
                 'personal_email': data.get("personal_email"),
@@ -135,13 +133,13 @@ class CreatePaySlips(Document):
                 'per_day_salary': salary_info.get("per_day_salary"),
                 'standard_working_days': salary_info.get("standard_working_days"),
                 'full_day_working_days': salary_info.get("full_days"),
-                'three_quarter_days_workings': salary_info.get("three_quarter_days"),
-                'half_days_working_days': salary_info.get("half_days"),
-                'quarter_days_working_days': salary_info.get("quarter_days"),
+                'three_four_quarter_days_working_days': salary_info.get("three_four_quarter_days"),
+                'half_day_working_days': salary_info.get("half_days"),
+                'quarter_day_working_days': salary_info.get("quarter_days"),
                 'lates_days': salary_info.get("lates"),
                 'absent': salary_info.get("absent"),
                 'actual_working_days': salary_info.get("actual_working_days"),
-                'total_monthly_salary': salary_info.get("total_salary"),
+                'net_payble_amount': salary_info.get("total_salary"),
                 'other_earnings_overtime': salary_info.get("overtime"),
             })
             
@@ -152,4 +150,3 @@ class CreatePaySlips(Document):
 
     def before_save(self):
         self.get_emp_records()
-        
