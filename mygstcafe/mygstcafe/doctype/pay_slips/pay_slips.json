@@ -19,7 +19,6 @@
   "standard_working_days",
   "column_break_zaxe",
   "month",
-  "for_month",
   "pan_number",
   "date_of_joining",
   "attendance_device_id",
@@ -78,7 +77,7 @@
   "lates_amount",
   "total_monthly_salary_section",
   "absent",
-  "total_monthly_salary",
+  "total",
   "sundays_working_section",
   "sundays_working_days",
   "column_break_vqpy",
@@ -401,12 +400,6 @@
    "label": "Absent"
   },
   {
-   "default": "0",
-   "fieldname": "total_monthly_salary",
-   "fieldtype": "Currency",
-   "label": "Total Monthly Salary [Full Day Working + Quarter Day Working + Half Day Working + 3/4 Quarter Day Working - Amount of Lates]"
-  },
-  {
    "fieldname": "net_payable_amount_section",
    "fieldtype": "Section Break",
    "label": "Net Payable Amount"
@@ -598,12 +591,6 @@
    "label": "Year"
   },
   {
-   "fieldname": "for_month",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "For Month"
-  },
-  {
    "fieldname": "standard_working_days",
    "fieldtype": "Int",
    "label": "Standard Working Days"
@@ -612,12 +599,18 @@
    "fieldname": "actual_working_days",
    "fieldtype": "Int",
    "label": "Actual Working Days"
+  },
+  {
+   "default": "0",
+   "fieldname": "total",
+   "fieldtype": "Currency",
+   "label": "Total Monthly Salary [Full Day Working + Quarter Day Working + Half Day Working + 3/4 Quarter Day Working - Amount of Lates]"
   }
  ],
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-09-13 13:20:33.177568",
+ "modified": "2024-09-14 17:49:09.357031",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Pay Slips",

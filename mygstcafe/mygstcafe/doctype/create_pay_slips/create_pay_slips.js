@@ -61,8 +61,6 @@ frappe.ui.form.on("Create Pay Slips", {
         );
       });
     }
-
-   
   },
 
   before_save(frm) {
@@ -85,10 +83,65 @@ frappe.ui.form.on("Create Pay Slips", {
     });
   },
 
-  select_month(frm) {
-    let select_month = frm.doc.select_month;
-    let currentMonth = get_month(select_month);
-    frm.set_value("month", currentMonth);
+  month(frm) {
+    const monthName = frm.doc.month;
+    let monthNum;
+
+    currentDate = new Date()
+    currentMonth = currentDate.getMonth()
+
+    // Use a switch statement to map month names to numbers
+    switch (monthName) {
+      case "January":
+        monthNum = 1;
+        break;
+      case "February":
+        monthNum = 2;
+        break;
+      case "March":
+        monthNum = 3;
+        break;
+      case "April":
+        monthNum = 4;
+        break;
+      case "May":
+        monthNum = 5;
+        break;
+      case "June":
+        monthNum = 6;
+        break;
+      case "July":
+        monthNum = 7;
+        break;
+      case "August":
+        monthNum = 8;
+        break;
+      case "September":
+        monthNum = 9;
+        break;
+      case "October":
+        monthNum = 10;
+        break;
+      case "November":
+        monthNum = 11;
+        break;
+      case "December":
+        monthNum = 12;
+        break;
+      default:
+        frappe.msgprint("Invalid month name.");
+        monthNum = null; // Set to null or some default value if month name is invalid
+        break;
+    }
+
+    if (currentMonth < monthNum) {
+      frappe.msgprint({
+        message: "Pay Slips can not be generated for future months!",
+        title: "Warning",
+        indicator: "orange" // You can also use "red" for errors, "green" for success, etc.
+    });
+    }
+    
   },
 
   genrate_for_all(frm) {
@@ -99,50 +152,3 @@ frappe.ui.form.on("Create Pay Slips", {
     );
   },
 });
-
-function get_month(month) {
-  let currentMonth;
-  switch (month) {
-    case "January":
-      currentMonth = 1;
-      break;
-    case "February":
-      currentMonth = 2;
-      break;
-    case "March":
-      currentMonth = 3;
-      break;
-    case "April":
-      currentMonth = 4;
-      break;
-    case "May":
-      currentMonth = 5;
-      break;
-    case "June":
-      currentMonth = 6;
-      break;
-    case "July":
-      currentMonth = 7;
-      break;
-    case "August":
-      currentMonth = 8;
-      break;
-    case "September":
-      currentMonth = 9;
-      break;
-    case "October":
-      currentMonth = 10;
-      break;
-    case "November":
-      currentMonth = 11;
-      break;
-    case "December":
-      currentMonth = 12;
-      break;
-    default:
-      console.log("Invalid month");
-      return null; // Exit if an invalid month is selected
-  }
-
-  return currentMonth;
-}

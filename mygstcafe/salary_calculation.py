@@ -1,15 +1,12 @@
-from datetime import datetime, timedelta
+from datetime import datetime, time
 
 def calculate_monthly_salary(employee_data, total_working_days):
-    ideal_check_in_time = datetime(1900, 1, 1, 10, 0)
-    ideal_check_out_time = datetime(1900, 1, 1, 19, 0)
-    overtime_threshold = datetime(1900, 1, 1, 19, 30)
     
     for emp_id, data in employee_data.items():
         basic_salary = data.get("basic_salary", 0)
         attendance_records = data.get("attendance_records", [])
         
-        per_day_salary = basic_salary / total_working_days
+        per_day_salary = round(basic_salary / total_working_days, 2)
         
         # Initialize counters
         total_salary = 0
@@ -28,14 +25,22 @@ def calculate_monthly_salary(employee_data, total_working_days):
             in_time = record["in_time"]
             out_time = record["out_time"]
             
+            ideal_check_in_time = datetime.combine(attendance_date,time(10,0))
+            ideal_check_out_time = datetime.combine(attendance_date,time(19,0))
+            overtime_threshold = datetime.combine(attendance_date,time(19,30))
+            
             if in_time is not None and out_time is not None:
-                total_working_time = out_time - in_time
+                temp_in = in_time.time()
+                check_in = datetime.combine(attendance_date,temp_in)
+                temp_out = out_time.time()
+                check_out = datetime.combine(attendance_date,temp_out)
+                total_working_time = check_out - check_in
                 total_working_hours = total_working_time.total_seconds() / 3600 
                 
                 if 7.875 <= total_working_hours <= 10.125:
                     overtime_salry = 0
-                    if total_working_hours > 9 and out_time > overtime_threshold:
-                        extra_time = out_time - ideal_check_out_time
+                    if total_working_hours > 9 and check_out > overtime_threshold:
+                        extra_time = check_out - ideal_check_out_time
                         overtime = extra_time.total_seconds() / 60
                         min_overtime_salary = per_day_salary / 540
                         overtime_salry = overtime * min_overtime_salary    
@@ -60,13 +65,13 @@ def calculate_monthly_salary(employee_data, total_working_days):
                 
                 else:
                     overtime_salry = 0
-                    if total_working_hours > 10.125 and out_time > overtime_threshold:
-                        extra_time = out_time - ideal_check_out_time
+                    if total_working_hours > 10.125 and check_out > overtime_threshold:
+                        extra_time = check_out - ideal_check_out_time
                         overtime = extra_time.total_seconds() / 60
                         min_overtime_salary = per_day_salary / 540
                         overtime_salry = overtime * min_overtime_salary 
                 
-                if in_time > ideal_check_in_time:
+                if check_in > ideal_check_in_time:
                     lates += 1
                     late_deduction = 0.10 * per_day_salary
                     total_late_deductions += late_deduction
@@ -85,11 +90,11 @@ def calculate_monthly_salary(employee_data, total_working_days):
             "half_days": half_days,
             "quarter_days": quarter_days,
             "three_four_quarter_days": three_four_quarter_days,
-            "total_salary": total_salary,
+            "total_salary": round(total_salary,2),
             "total_late_deductions": total_late_deductions,
             "absent": total_absents,
             "lates": lates,
-            "overtime": overtime_salry,
+            "overtime": round(overtime_salry,2),
         }
     
     return employee_data
