@@ -1,6 +1,6 @@
 // Copyright (c) 2024, mygstcafe and contributors
 // For license information, please see license.txt
-
+var preventSubmission;
 frappe.ui.form.on("Create Pay Slips", {
   refresh(frm) {
     let currentYear = new Date().getFullYear();
@@ -45,12 +45,39 @@ frappe.ui.form.on("Create Pay Slips", {
             },
           ],
           (values) => {
-            let month = get_month(values.month);
+            const months = {
+              January: 1,
+              February: 2,
+              March: 3,
+              April: 4,
+              May: 5,
+              June: 6,
+              July: 7,
+              August: 8,
+              September: 9,
+              October: 10,
+              November: 11,
+              December: 12,
+            };
+
+            let monthNum = months[values.month];
+
+            const currentDate = new Date();
+            const currentMonth = currentDate.getMonth() + 1;
+
+            if (monthNum && currentMonth < monthNum) {
+              frappe.validated = false;
+              frappe.throw({
+                message: "Pay Slips cannot be generated for future months!",
+                title: "Error",
+                indicator: "red",
+              });
+            }
             frappe.call({
               method: "mygstcafe.regenrate_pay_slips.regenerate_pay_slip",
               args: {
                 selected_year: values.year,
-                selected_month: month,
+                selected_month: monthNum,
                 selected_emp: values.employee,
               },
               callback: function (res) {
@@ -83,65 +110,49 @@ frappe.ui.form.on("Create Pay Slips", {
     });
   },
 
-  month(frm) {
-    const monthName = frm.doc.month;
-    let monthNum;
+  select_month(frm) {
+    const monthName = frm.doc.select_month;
+    const months = {
+      January: 1,
+      February: 2,
+      March: 3,
+      April: 4,
+      May: 5,
+      June: 6,
+      July: 7,
+      August: 8,
+      September: 9,
+      October: 10,
+      November: 11,
+      December: 12,
+    };
 
-    currentDate = new Date()
-    currentMonth = currentDate.getMonth()
+    let monthNum = months[monthName];
 
-    // Use a switch statement to map month names to numbers
-    switch (monthName) {
-      case "January":
-        monthNum = 1;
-        break;
-      case "February":
-        monthNum = 2;
-        break;
-      case "March":
-        monthNum = 3;
-        break;
-      case "April":
-        monthNum = 4;
-        break;
-      case "May":
-        monthNum = 5;
-        break;
-      case "June":
-        monthNum = 6;
-        break;
-      case "July":
-        monthNum = 7;
-        break;
-      case "August":
-        monthNum = 8;
-        break;
-      case "September":
-        monthNum = 9;
-        break;
-      case "October":
-        monthNum = 10;
-        break;
-      case "November":
-        monthNum = 11;
-        break;
-      case "December":
-        monthNum = 12;
-        break;
-      default:
-        frappe.msgprint("Invalid month name.");
-        monthNum = null; // Set to null or some default value if month name is invalid
-        break;
+    if (!monthNum) {
+      frappe.msgprint("Invalid month name.");
+      return;
     }
 
-    if (currentMonth < monthNum) {
-      frappe.msgprint({
-        message: "Pay Slips can not be generated for future months!",
-        title: "Warning",
-        indicator: "orange" // You can also use "red" for errors, "green" for success, etc.
-    });
+    frm.set_value("month", monthNum);
+
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+
+    if (monthNum && currentMonth < monthNum) {
+      frappe.validated = false;
+      frappe.throw({
+        message: "Pay Slips cannot be generated for future months!",
+        title: "Error",
+        indicator: "red",
+      });
     }
-    
+  },
+
+  validate: function (frm) {
+    if (preventSubmission) {
+      frappe.validate = false;
+    }
   },
 
   genrate_for_all(frm) {
