@@ -95,6 +95,25 @@ frappe.ui.form.on("Create Pay Slips", {
   },
 
   after_save(frm) {
+    // paySlips = frm.doc.created_pay_slips
+    // for paySlip, in paySlips{
+    // frm.add_custom_button("Submit Pay Slip", function () {
+    //   frappe.call({
+    //     method: "frappe.client.submit",
+    //     args: {
+    //       doctype: "Pay Slips",
+    //       name: paySlip.name,
+    //     },
+    //     callback: function (r) {
+    //       if (!r.exc) {
+    //         frappe.msgprint("Document submitted successfully.");
+    //         frm.reload_doc();
+    //       } else {
+    //         frappe.msgprint("Error: " + r.exc);
+    //       }
+    //     },
+    //   });
+    // });}
     frappe.call({
       method: "mygstcafe.api.get_pay_slip_list",
       args: {

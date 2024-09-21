@@ -6,6 +6,12 @@ app_email = "piyushs@mygstcafe.in"
 app_license = "mit"
 
 import mygstcafe.override_auth
+import mygstcafe.payroll_management.add_attendance_status
+
+
+
+
+
 
 # Apps
 # ------------------
@@ -48,7 +54,7 @@ import mygstcafe.override_auth
 
 # include js in doctype views
 # doctype_js = {"Employee": "public/js/employee_custom.js"}
-doctype_list_js = {"attendance" : "public/js/attendance_list.js"}
+# doctype_list_js = {"attendance" : "public/js/attendance_list.js"}
 # doctype_tree_js = {"doctype" : "public/js/doctype_tree.js"}
 # doctype_calendar_js = {"doctype" : "public/js/doctype_calendar.js"}
 
@@ -146,16 +152,22 @@ doc_events = {
 	# 	"on_update": "method",
 	# 	"on_cancel": "method",
 	# 	"on_trash": "method"
-	# },
- "Employee":{
-     "onload":"mygstcafe.add_custom_field.add_custom_fields",
-     "onload":"mygstcafe.add_custom_field.remove_custom_fields",
-    #  "on_load":"mygstcafe.mygstcafe.add_custom_field.update_field_properties",
-     },
- "Attendance":{
-     "onload":"mygstcafe.add_custom_field.add_custom_fields",
-    #  "on_load":"mygstcafe.mygstcafe.add_custom_field.update_field_properties",
-     },
+# 	# },
+#  "Employee":{
+#      "onload":"mygstcafe.add_custom_field.add_custom_fields",
+#      "onload":"mygstcafe.add_custom_field.remove_custom_fields",
+#     #  "on_load":"mygstcafe.mygstcafe.add_custom_field.update_field_properties",
+#      },
+#  "Attendance":{
+#      "onload":"mygstcafe.add_custom_field.add_custom_fields",
+#     #  "on_load":"mygstcafe.mygstcafe.add_custom_field.update_field_properties",
+#      },
+    "Salary Component":{
+        "onload":"mygstcafe.payroll_management.salary_component.cal_salary_component"
+    },
+    "Shift Type":{
+        "validate":"mygstcafe.payroll_management.update_working_hours.UpdateWorkingHours.get_attendance"
+    }
 }
 
 # Scheduled Tasks
