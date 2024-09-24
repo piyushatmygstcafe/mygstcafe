@@ -3,7 +3,10 @@
 var preventSubmission;
 frappe.ui.form.on("Create Pay Slips", {
   refresh(frm) {
-
+    if (frm.genrate_for_all){
+      frm.set_df_property('select_company','hidden', 1)
+      frm.set_df_property('company_abbr','hidden', 1)
+    }
     frm.select_company = frappe.defaults.get_user_default("company")
     let currentYear = new Date().getFullYear();
     if (!frm.doc.year) {
@@ -93,9 +96,6 @@ frappe.ui.form.on("Create Pay Slips", {
   },
 
   before_save(frm) {
-    if (frm.genrate_for_all || frm.select_company){
-      frappe.throw("Please Select company!")
-    }
     frm.set_value("add_regenrate_button", 1);
   },
 
@@ -182,6 +182,11 @@ frappe.ui.form.on("Create Pay Slips", {
   genrate_for_all(frm) {
     frm.set_df_property(
       "select_company",
+      "hidden",
+      frm.doc.genrate_for_all ? 1 : 0
+    );
+    frm.set_df_property(
+      "company_abbr",
       "hidden",
       frm.doc.genrate_for_all ? 1 : 0
     );

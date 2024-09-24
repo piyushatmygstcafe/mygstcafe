@@ -9,8 +9,13 @@ from mygstcafe.salary_calculation import calculate_monthly_salary
 class CreatePaySlips(Document):
 
     def get_emp_records(self):
+        
+        if not self.month or not self.year:
+            return frappe.throw("Select year and month")
+        
         year = self.year
         month = int(self.month)
+        
         
         holidays = frappe.db.sql("""SELECT holiday_date FROM tabHoliday WHERE MONTH(holiday_date) = %s AND YEAR(holiday_date) = %s """,(month, year),as_dict=True)
 
@@ -52,7 +57,7 @@ class CreatePaySlips(Document):
         """
         
         filters = [year, month]
-        if not self.genrate_for_all:
+        if not self.genrate_for_all :
             if not self.select_company:
                 return frappe.throw("Please Select Company!")  
             company = self.select_company
@@ -200,3 +205,13 @@ class CreatePaySlips(Document):
 
     def before_save(self):
         self.get_emp_records()
+
+    def on_submit(self):
+        self.add_regenrate_button = 0
+        pay_slip_list = self.created_pay_slips
+        
+        for item in pay_slip_list:
+            docname = item.pay_slip
+            pay_slip = frappe.get_doc("Pay Slips", docname)
+            
+            pay_slip.submit()

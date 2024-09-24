@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:pay-slip-{YYYY}-{MM}",
+ "autoname": "format:{company_abbr}-pay-slip-{YYYY}-{MM}",
  "creation": "2024-09-06 15:30:54.065662",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -14,10 +14,13 @@
   "genrate_for_all",
   "add_regenrate_button",
   "select_company",
+  "company_abbr",
+  "column_break_027v",
   "generated_pay_slips_tab",
   "generated_pay_slips_section",
   "add_pay_slips",
-  "created_pay_slips"
+  "created_pay_slips",
+  "amended_from"
  ],
  "fields": [
   {
@@ -90,16 +93,37 @@
    "fieldtype": "Int",
    "hidden": 1,
    "label": "Month"
+  },
+  {
+   "fetch_from": "select_company.abbr",
+   "fieldname": "company_abbr",
+   "fieldtype": "Data",
+   "label": "Company Abbr"
+  },
+  {
+   "fieldname": "column_break_027v",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Create Pay Slips",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 1,
+ "is_submittable": 1,
  "links": [
   {
    "link_doctype": "Pay Slips",
    "link_fieldname": "employee_id"
   }
  ],
- "modified": "2024-09-16 10:56:25.656509",
+ "modified": "2024-09-24 18:28:45.098010",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Create Pay Slips",
