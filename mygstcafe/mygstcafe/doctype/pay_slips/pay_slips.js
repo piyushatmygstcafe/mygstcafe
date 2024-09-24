@@ -11,10 +11,8 @@ frappe.ui.form.on("Pay Slips", {
       "lates_rate",
       "sunday_working_rate",
     ];
-
     fields.forEach((field) => {
       frm.set_value(field, frm.doc.per_day_salary);
     });
   },
-
 });

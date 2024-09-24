@@ -32,7 +32,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
         e.department,
         e.pan_number,
         e.date_of_joining,
-        e.basic_salary,
+        e.grade,
         e.attendance_device_id,
         a.attendance_date,
         a.in_time,
@@ -67,7 +67,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
         "department": "",
         "pan_number": "",
         "date_of_joining": "",
-        "basic_salary": 0,
+        "grade": "",
         "attendance_device_id": "",
         "attendance_records": [],
         "salary_information": {}
@@ -89,6 +89,8 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
             })
         else:
             # Add new employee data
+            grade = record.get('grade')
+            basic_salary = frappe.db.get_value('Salary Structure Assignment', {'employee': employee_id, 'grade':grade}, ['base'])
             emp_records[employee_id] = {
                 "company":record.get('company'),
                 "employee": employee_id,
@@ -98,7 +100,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
                 "department": record.get('department'),
                 "pan_number": record.get('pan_number'),
                 "date_of_joining": record.get('date_of_joining'),
-                "basic_salary": record.get('basic_salary'),
+                "basic_salary": basic_salary,
                 "attendance_device_id": record.get('attendance_device_id'),
                 "attendance_records": [{
                     "attendance_date": attendance_date,
