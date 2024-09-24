@@ -6,8 +6,8 @@ app_email = "piyushs@mygstcafe.in"
 app_license = "mit"
 
 import mygstcafe.override_auth
-import mygstcafe.payroll_management.add_attendance_status
-import mygstcafe.payroll_management.calculate_salary
+# import mygstcafe.payroll_management.add_attendance_status
+# import mygstcafe.payroll_management.calculate_salary
 
 
 

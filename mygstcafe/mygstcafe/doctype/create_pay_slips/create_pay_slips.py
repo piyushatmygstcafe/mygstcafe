@@ -37,6 +37,7 @@ class CreatePaySlips(Document):
                 e.date_of_joining,
                 e.grade,
                 e.attendance_device_id,
+                a.shift,
                 a.attendance_date,
                 a.in_time,
                 a.out_time
@@ -72,7 +73,7 @@ class CreatePaySlips(Document):
         for record in records:
             (
                 company,employee_id, employee_name, personal_email, designation, department,
-                pan_number, date_of_joining, grade, attendance_device_id,
+                pan_number, date_of_joining, grade, attendance_device_id, shift,
                 attendance_date, in_time, out_time
             ) = record
             basic_salary = frappe.db.get_value('Salary Structure Assignment', {'employee': employee_id, 'grade':grade}, ['base'])
@@ -80,6 +81,7 @@ class CreatePaySlips(Document):
                 # Employee already exists, append to attendance_records
                 emp_records[employee_id]["attendance_records"].append({
                     "attendance_date": attendance_date,
+                    "shift":shift,
                     "in_time": in_time,
                     "out_time": out_time
                 })
@@ -98,6 +100,7 @@ class CreatePaySlips(Document):
                     "attendance_device_id": attendance_device_id,
                     "attendance_records": [{
                         "attendance_date": attendance_date,
+                        "shift":shift,
                         "in_time": in_time,
                         "out_time": out_time
                     }],

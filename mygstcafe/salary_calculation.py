@@ -1,3 +1,4 @@
+import frappe
 from datetime import datetime, time
 
 def calculate_monthly_salary(employee_data, total_working_days):
@@ -28,8 +29,17 @@ def calculate_monthly_salary(employee_data, total_working_days):
                 in_time = record["in_time"]
                 out_time = record["out_time"]
                 
-                ideal_check_in_time = datetime.combine(attendance_date,time(10,0))
-                ideal_check_out_time = datetime.combine(attendance_date,time(19,0))
+                shift = record["shift"]
+                shift_start = frappe.db.get_value('Shift Type', {"name": "Regular Shift"}, ["start_time"])
+
+                # Extract hours and minutes from the timedelta
+                start_hours, remainder = divmod(shift_start.seconds, 3600)
+                start_minutes, start_seconds = divmod(remainder, 60)
+                shift_end = frappe.db.get_value('Shift Type', {"name": "Regular Shift"}, ["end_time"])
+                end_hours, remainder = divmod(shift_start.seconds, 3600)
+                end_minutes, end_seconds = divmod(remainder, 60)
+                ideal_check_in_time = datetime.combine(attendance_date,time(start_hours,start_minutes))
+                ideal_check_out_time = datetime.combine(attendance_date,time(end_hours,end_minutes))
                 overtime_threshold = datetime.combine(attendance_date,time(19,30))
                 
                 if in_time is not None and out_time is not None:
