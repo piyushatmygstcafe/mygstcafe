@@ -9,6 +9,13 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
     company = selected_company
     emplyee = selected_emp
     
+    holidays = frappe.db.sql("""
+                                 SELECT holiday_date
+                                FROM tabHoliday
+                                WHERE MONTH(holiday_date) = %s
+                                AND YEAR(holiday_date) = %s
+                                 """,(month, year),as_dict=True)
+    
     # Determine the number of working days in the month
     if month == 2:
         # Check for leap year
@@ -34,6 +41,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
         e.date_of_joining,
         e.grade,
         e.attendance_device_id,
+        a.shift,
         a.attendance_date,
         a.in_time,
         a.out_time
@@ -77,6 +85,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
     for record in records:
         employee_id = record.get('employee')
         attendance_date = record.get('attendance_date')
+        shift = record.get('shift')
         in_time = record.get('in_time')
         out_time = record.get('out_time')
 
@@ -84,6 +93,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
             # Employee already exists, append to attendance_records
             emp_records[employee_id]["attendance_records"].append({
                 "attendance_date": attendance_date,
+                "shift":shift,
                 "in_time": in_time,
                 "out_time": out_time
             })
@@ -104,6 +114,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
                 "attendance_device_id": record.get('attendance_device_id'),
                 "attendance_records": [{
                     "attendance_date": attendance_date,
+                    "shift":shift,
                     "in_time": in_time,
                     "out_time": out_time
                 }],
@@ -111,7 +122,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
             }
 
     # Calculate monthly salary for each employee
-    employee_data = calculate_monthly_salary(emp_records, working_days)
+    employee_data = calculate_monthly_salary(emp_records, working_days,holidays)
 
     for emp_id, data in employee_data.items():
         

@@ -11,6 +11,8 @@ class CreatePaySlips(Document):
     def get_emp_records(self):
         year = self.year
         month = int(self.month)
+        
+        holidays = frappe.db.sql("""SELECT holiday_date FROM tabHoliday WHERE MONTH(holiday_date) = %s AND YEAR(holiday_date) = %s """,(month, year),as_dict=True)
 
         # Determine the number of working days in the month
         if month == 2:
@@ -107,11 +109,8 @@ class CreatePaySlips(Document):
                     "salary_information": {}
                 }
         
-        # frappe.msgprint(str(dict(emp_records)))
-               
-        # Calculate monthly salary for each employee
-        employee_data = calculate_monthly_salary(emp_records, working_days)
-        # frappe.throw(str(dict(employee_data)))
+        # Calculate monthly salary for each employe
+        employee_data = calculate_monthly_salary(emp_records, working_days,holidays)
         # Create pay slips and save them
         self.create_pay_slips(employee_data,month,year)
 

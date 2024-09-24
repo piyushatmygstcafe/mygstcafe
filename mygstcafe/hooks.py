@@ -166,9 +166,9 @@ doc_events = {
     "Salary Component":{
         "onload":"mygstcafe.payroll_management.salary_component.cal_salary_component"
     },
-    "Shift Type":{
-        "validate":"mygstcafe.payroll_management.update_working_hours.UpdateWorkingHours.get_attendance"
-    }
+    # "Shift Type":{
+    #     "validate":"mygstcafe.payroll_management.update_working_hours.UpdateWorkingHours.get_attendance"
+    # }
 }
 
 # Scheduled Tasks

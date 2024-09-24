@@ -1,7 +1,7 @@
 import frappe
 from datetime import datetime, time
 
-def calculate_monthly_salary(employee_data, total_working_days):
+def calculate_monthly_salary(employee_data, total_working_days,holidays):
     
     for emp_id, data in employee_data.items():
         basic_salary = data.get("basic_salary", 0)
@@ -120,14 +120,20 @@ def calculate_monthly_salary(employee_data, total_working_days):
                             late_deduction = 0.10 * per_day_salary
                             total_late_deductions += late_deduction
                 else:
-                    total_absents += 1
-                    total_salary += 0          
+                    if any(attendance_date == holiday['holiday_date'] for holiday in holidays):
+                        pass
+                    else:
+                        total_absents += 1
+                        total_salary += 0          
             else:
-                total_absents += 1
-                total_salary += 0
+                if any(attendance_date == holiday['holiday_date'] for holiday in holidays):
+                    pass
+                else:
+                    total_absents += 1
+                    total_salary += 0 
         
         total_salary -= total_late_deductions
-        total_salary += sundays_salry + overtime_salry
+        total_salary += sundays_salry + overtime_salry + (len(holidays) * per_day_salary)
         
         data["salary_information"] = {
             "basic_salary": basic_salary,
