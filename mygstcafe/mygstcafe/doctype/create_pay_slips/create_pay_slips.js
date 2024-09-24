@@ -3,6 +3,8 @@
 var preventSubmission;
 frappe.ui.form.on("Create Pay Slips", {
   refresh(frm) {
+
+    frm.select_company = frappe.defaults.get_user_default("company")
     let currentYear = new Date().getFullYear();
     if (!frm.doc.year) {
       frm.set_value("year", currentYear);
@@ -91,6 +93,9 @@ frappe.ui.form.on("Create Pay Slips", {
   },
 
   before_save(frm) {
+    if (frm.genrate_for_all || frm.select_company){
+      frappe.throw("Please Select company!")
+    }
     frm.set_value("add_regenrate_button", 1);
   },
 

@@ -52,8 +52,17 @@ class CreatePaySlips(Document):
         """
         
         filters = [year, month]
-        
+        if not self.genrate_for_all:
+            if not self.select_company:
+                return frappe.throw("Please Select Company!")  
+            company = self.select_company
+            base_query += "AND e.company = %s"
+            filters.append(company)
+            
         records = frappe.db.sql(base_query, filters, as_dict=False)
+        
+        if not records:
+            return frappe.throw("No records found!")
         
         # Initialize a defaultdict to organize employee records
         emp_records = defaultdict(lambda: {
