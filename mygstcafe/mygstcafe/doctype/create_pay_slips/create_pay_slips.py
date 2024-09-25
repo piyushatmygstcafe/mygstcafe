@@ -44,7 +44,7 @@ class CreatePaySlips(Document):
                 e.date_of_joining,
                 e.grade,
                 e.attendance_device_id,
-                a.shift,
+                e.default_shift,
                 a.attendance_date,
                 a.in_time,
                 a.out_time
@@ -92,7 +92,7 @@ class CreatePaySlips(Document):
                 pan_number, date_of_joining, grade, attendance_device_id, shift,
                 attendance_date, in_time, out_time
             ) = record
-            basic_salary = frappe.db.get_value('Salary Structure Assignment', {'employee': employee_id, 'grade':grade}, ['base'])
+            basic_salary = frappe.db.get_value('Employee Grade', { 'name':grade}, ['default_base_pay'])
             if emp_records[employee_id]["employee"]:
                 # Employee already exists, append to attendance_records
                 emp_records[employee_id]["attendance_records"].append({
@@ -114,6 +114,7 @@ class CreatePaySlips(Document):
                     "date_of_joining": date_of_joining,
                     "basic_salary": basic_salary,
                     "attendance_device_id": attendance_device_id,
+                    "shift":shift,
                     "attendance_records": [{
                         "attendance_date": attendance_date,
                         "shift":shift,
@@ -126,6 +127,7 @@ class CreatePaySlips(Document):
         # Calculate monthly salary for each employe
         employee_data = calculate_monthly_salary(emp_records, working_days,holidays)
         # Create pay slips and save them
+        
         self.create_pay_slips(employee_data,month,year)
 
     def create_pay_slips(self, employee_data, month, year):

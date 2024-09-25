@@ -28,14 +28,15 @@ def calculate_monthly_salary(employee_data, total_working_days,holidays):
                 attendance_date = record["attendance_date"]
                 in_time = record["in_time"]
                 out_time = record["out_time"]
+                shift = record["shift"]
                 
                 shift = record["shift"]
-                shift_start = frappe.db.get_value('Shift Type', {"name": "Regular Shift"}, ["start_time"])
+                shift_start = frappe.db.get_value('Shift Type', {"name": shift}, ["start_time"])
 
                 # Extract hours and minutes from the timedelta
                 start_hours, remainder = divmod(shift_start.seconds, 3600)
                 start_minutes, start_seconds = divmod(remainder, 60)
-                shift_end = frappe.db.get_value('Shift Type', {"name": "Regular Shift"}, ["end_time"])
+                shift_end = frappe.db.get_value('Shift Type', {"name": shift}, ["end_time"])
                 end_hours, remainder = divmod(shift_start.seconds, 3600)
                 end_minutes, end_seconds = divmod(remainder, 60)
                 ideal_check_in_time = datetime.combine(attendance_date,time(start_hours,start_minutes))
