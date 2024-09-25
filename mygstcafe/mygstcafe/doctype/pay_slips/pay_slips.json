@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:pay-slip-{MM}-{employee_id}",
+ "autoname": "format:pay-slip-{month_num}-{employee_id}",
  "creation": "2024-09-09 14:56:29.425816",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -19,6 +19,7 @@
   "standard_working_days",
   "column_break_zaxe",
   "month",
+  "month_num",
   "pan_number",
   "date_of_joining",
   "attendance_device_id",
@@ -605,12 +606,17 @@
    "fieldname": "total",
    "fieldtype": "Currency",
    "label": "Total Monthly Salary [Full Day Working + Quarter Day Working + Half Day Working + 3/4 Quarter Day Working - Amount of Lates]"
+  },
+  {
+   "fieldname": "month_num",
+   "fieldtype": "Int",
+   "hidden": 1,
+   "label": "Month Num"
   }
  ],
  "index_web_pages_for_search": 1,
- "is_submittable": 1,
  "links": [],
- "modified": "2024-09-14 17:49:09.357031",
+ "modified": "2024-09-25 16:59:19.564117",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Pay Slips",
@@ -627,7 +633,6 @@
    "report": 1,
    "role": "System Manager",
    "share": 1,
-   "submit": 1,
    "write": 1
   }
  ],

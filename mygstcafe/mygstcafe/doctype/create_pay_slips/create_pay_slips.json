@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{company_abbr}-pay-slip-{YYYY}-{MM}",
+ "autoname": "format:{company_abbr}-pay-slip-{year}-{month}",
  "creation": "2024-09-06 15:30:54.065662",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -122,7 +122,7 @@
    "link_fieldname": "employee_id"
   }
  ],
- "modified": "2024-09-25 15:12:02.742226",
+ "modified": "2024-09-25 16:54:58.054020",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Create Pay Slips",

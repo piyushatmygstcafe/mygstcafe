@@ -162,6 +162,7 @@ class CreatePaySlips(Document):
                 'docstatus': 0,
                 'year': year,
                 'month': month_name,
+                'month_num':month,
                 'company': data.get("company"),
                 'employee_id': data.get("employee"),
                 'employee_name': data.get("employee_name"),
@@ -208,12 +209,12 @@ class CreatePaySlips(Document):
     def before_save(self):
         self.get_emp_records()
 
-    def on_submit(self):
-        self.add_regenrate_button = 0
-        pay_slip_list = self.created_pay_slips
+    # def on_submit(self):
+    #     self.add_regenrate_button = 0
+    #     pay_slip_list = self.created_pay_slips
         
-        for item in pay_slip_list:
-            docname = item.pay_slip
-            pay_slip = frappe.get_doc("Pay Slips", docname)
+    #     for item in pay_slip_list:
+    #         docname = item.pay_slip
+    #         pay_slip = frappe.get_doc("Pay Slips", docname)
             
-            pay_slip.submit()
+    #         pay_slip.submit()
