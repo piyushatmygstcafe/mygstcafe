@@ -3,6 +3,8 @@ import frappe.defaults
 from frappe import _
 import json
 import uuid
+from frappe import sendmail
+from frappe.core.doctype.communication.email import make
 
 # API to get default company and list
 @frappe.whitelist(allow_guest=True)
@@ -86,3 +88,45 @@ def get_pay_slip_list(month, parent_docname):
 
     return created_pay_slips
 
+@frappe.whitelist(allow_guest=True)
+def email_pay_slip(pay_slips):
+    pay_slips = json.loads(pay_slips)
+    for pay_slip in pay_slips:	
+        # Fetch necessary details
+        doctype_name = pay_slip.get('name')
+        doc = frappe.get_doc('Pay Slips',doctype_name )
+        employee_name = doc.employee_name
+        month = doc.month
+        year = doc.year
+        doctype = doc.doctype
+        docname = doc.name
+        personal_email = doc.personal_email
+        
+        # Compose email subject and message
+        subject = f"Pay Slip for {employee_name} - {month} {year}"
+        message = f"""
+        Dear {employee_name},
+
+        Please find attached your pay slip for {month} {year}.
+
+        Best regards,
+        Your Company
+        """
+
+        # Attach the pay slip PDF
+        pdf_attachment = frappe.attach_print(doctype, docname, file_name=f"Pay Slip {docname}")
+
+        # Ensure email exists before sending
+        if personal_email:
+            # Send the email
+            frappe.sendmail(
+                recipients=[personal_email],
+                subject=subject,
+                message=message,
+                attachments=[{
+                    'fname': f"Pay Slip - {employee_name}.pdf", 
+                    'fcontent': pdf_attachment
+                }],
+            )
+        else:
+            frappe.throw(f"No email address found for employee {employee_name}")
