@@ -52,7 +52,7 @@ def get_item_defaults():
 @frappe.whitelist(allow_guest=True)
 def get_pay_slip_list(month, parent_docname):
     pay_slip_list = frappe.db.sql("""
-        SELECT name, employee_id, net_payble_amount 
+        SELECT name, employee_name, net_payble_amount 
         FROM `tabPay Slips` 
         WHERE month_num = %s
     """, (month,), as_dict=True)
@@ -68,7 +68,7 @@ def get_pay_slip_list(month, parent_docname):
         """, (
             generated_name,                 # name
             pay_slip['name'],               # pay_slip
-            pay_slip['employee_id'],        # employee
+            pay_slip['employee_name'],        # employee
             pay_slip['net_payble_amount'],# salary
             parent_docname,                 # parent
             'Create Pay Slips',             # parenttype
@@ -77,7 +77,7 @@ def get_pay_slip_list(month, parent_docname):
         created_pay_slips.append({
             'name': generated_name,
             'pay_slip': pay_slip['name'],
-            'employee': pay_slip['employee_id'],
+            'employee': pay_slip['employee_name'],
             'salary': pay_slip['net_payble_amount'],
             'parent': parent_docname,
             'parenttype': 'Create Pay Slips',
