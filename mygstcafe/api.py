@@ -54,7 +54,7 @@ def get_pay_slip_list(month, parent_docname):
     pay_slip_list = frappe.db.sql("""
         SELECT name, employee_id, net_payble_amount 
         FROM `tabPay Slips` 
-        WHERE MONTH(creation) = %s
+        WHERE month_num = %s
     """, (month,), as_dict=True)
     
     created_pay_slips = []
