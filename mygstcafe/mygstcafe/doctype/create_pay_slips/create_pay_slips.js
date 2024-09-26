@@ -2,9 +2,8 @@
 // For license information, please see license.txt
 var preventSubmission;
 frappe.ui.form.on("Create Pay Slips", {
-  onload: function (frm) {},
-
   refresh(frm) {
+    add_email_btn(frm);
     if (frm.genrate_for_all) {
       frm.set_df_property("select_company", "hidden", 1);
       frm.set_df_property("company_abbr", "hidden", 1);
@@ -168,19 +167,19 @@ frappe.ui.form.on("Create Pay Slips", {
       "hidden",
       frm.doc.genrate_for_all ? 1 : 0
     );
-    frm.set_value("select_company","")
+    frm.set_value("select_company", "");
     frm.set_df_property(
       "company_abbr",
       "hidden",
       frm.doc.genrate_for_all ? 1 : 0
     );
-    frm.set_value("company_abbr")
+    frm.set_value("company_abbr");
     frm.set_df_property(
       "select_employee",
       "hidden",
       frm.doc.genrate_for_all ? 1 : 0
     );
-    frm.set_value("select_employee","")
+    frm.set_value("select_employee", "");
     frm.set_df_property(
       "select_employee",
       "disabled",
@@ -188,3 +187,37 @@ frappe.ui.form.on("Create Pay Slips", {
     );
   },
 });
+
+function add_email_btn(frm) {
+  frm.fields_dict["created_pay_slips"].grid.wrapper
+    .find(".grid-add-row")
+    .hide();
+  frm.fields_dict["created_pay_slips"].grid.wrapper
+    .find(".grid-remove-rows")
+    .hide();
+  frm.fields_dict["created_pay_slips"].grid.add_custom_button(
+    "Email Pay Slips",
+    function () {
+      let selected_rows =
+        frm.fields_dict["created_pay_slips"].grid.get_selected();
+
+      if (selected_rows.length > 0) {
+        frappe.call({
+          method: "mygstcafe.api.email_pay_slip",
+          args: {
+            raw_data: selected_rows,
+          },
+          callback: function (res) {
+            frappe.msgprint("Pay slip emailed successfully!");
+          },
+          error: function (r) {
+            frappe.msgprint(r.message);
+          },
+        });
+      } else {
+        frappe.msgprint("No row selected!");
+      }
+    },
+    "Actions"
+  );
+}

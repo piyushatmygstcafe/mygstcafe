@@ -133,7 +133,7 @@ class CreatePaySlips(Document):
         # Calculate monthly salary for each employe
         employee_data = calculate_monthly_salary(emp_records, working_days,holidays)
         # Create pay slips and save them
-        frappe.msgprint(str(dict(employee_data)))
+        # frappe.msgprint(str(dict(employee_data)))
         self.create_pay_slips(employee_data,month,year)
 
     def create_pay_slips(self, employee_data, month, year):

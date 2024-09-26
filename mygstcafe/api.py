@@ -89,20 +89,34 @@ def get_pay_slip_list(month, parent_docname):
     return created_pay_slips
 
 @frappe.whitelist(allow_guest=True)
-def email_pay_slip(pay_slips):
-    pay_slips = json.loads(pay_slips)
-    for pay_slip in pay_slips:	
-        # Fetch necessary details
-        doctype_name = pay_slip.get('name')
-        doc = frappe.get_doc('Pay Slips',doctype_name )
+def email_pay_slip(pay_slips=None, raw_data=None):
+    
+    if pay_slips is None:
+        pay_slips = []
+
+   
+    data = json.loads(raw_data)
+
+    
+    for item in data:
+        record = frappe.db.get_value("Created Pay Slips", item, "pay_slip")
+        if record:
+            pay_slips.append(record)
+
+    
+    for pay_slip_name in pay_slips:
+        
+        doc = frappe.get_doc('Pay Slips', pay_slip_name)
+        
+        
         employee_name = doc.employee_name
         month = doc.month
         year = doc.year
         doctype = doc.doctype
         docname = doc.name
         personal_email = doc.personal_email
+
         
-        # Compose email subject and message
         subject = f"Pay Slip for {employee_name} - {month} {year}"
         message = f"""
         Dear {employee_name},
@@ -113,12 +127,12 @@ def email_pay_slip(pay_slips):
         Your Company
         """
 
-        # Attach the pay slip PDF
+        
         pdf_attachment = frappe.attach_print(doctype, docname, file_name=f"Pay Slip {docname}")
 
-        # Ensure email exists before sending
+       
         if personal_email:
-            # Send the email
+            
             frappe.sendmail(
                 recipients=[personal_email],
                 subject=subject,
