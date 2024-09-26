@@ -1,7 +1,7 @@
 {
     "doctype": "Print Format",
     "name": "Pay Slip Format",
-    "doc_type": "Pay SLips",
+    "doc_type": "Pay Slips",
     "html": "pay_slip.html",
     "module": "MYGSTCAFE",
     "standard": "No",
