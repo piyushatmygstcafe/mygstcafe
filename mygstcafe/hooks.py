@@ -17,7 +17,7 @@ fixtures = [
     {
         "doctype": "Print Format",
         "filters": {
-            "name": ["in", ["Pay Slip"]]
+            "name": ["in", ["Pay Slip Format"]]
         }
     }
 ]
