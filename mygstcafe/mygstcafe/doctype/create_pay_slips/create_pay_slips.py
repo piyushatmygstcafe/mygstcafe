@@ -58,12 +58,18 @@ class CreatePaySlips(Document):
         
         filters = [year, month]
         if not self.genrate_for_all :
-            if not self.select_company:
-                return frappe.throw("Please Select Company!")  
-            company = self.select_company
-            base_query += "AND e.company = %s"
-            filters.append(company)
-            
+            if not self.select_company and not self.select_employee:
+                return frappe.throw("Please Select Company or emplyee!")
+        
+            if self.select_company:
+                company = self.select_company
+                base_query += "AND e.company = %s"
+                filters.append(company)
+            else:
+                employee = self.select_employee
+                base_query += "AND e.employee = %s"
+                filters.append(employee)
+              
         records = frappe.db.sql(base_query, filters, as_dict=False)
         
         if not records:
@@ -127,8 +133,8 @@ class CreatePaySlips(Document):
         # Calculate monthly salary for each employe
         employee_data = calculate_monthly_salary(emp_records, working_days,holidays)
         # Create pay slips and save them
-        
-        self.create_pay_slips(employee_data,month,year)
+        frappe.msgprint(str(dict(employee_data)))
+        # self.create_pay_slips(employee_data,month,year)
 
     def create_pay_slips(self, employee_data, month, year):
         for emp_id, data in employee_data.items():

@@ -1,7 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "format:{company_abbr}-pay-slip-{year}-{month}",
+ "autoname": "format:{company_abbr}{select_employee}-pay-slip-{year}-{month}",
  "creation": "2024-09-06 15:30:54.065662",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -16,6 +16,7 @@
   "select_company",
   "company_abbr",
   "column_break_027v",
+  "select_employee",
   "generated_pay_slips_tab",
   "generated_pay_slips_section",
   "add_pay_slips",
@@ -114,6 +115,13 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "default": "  ",
+   "fieldname": "select_employee",
+   "fieldtype": "Link",
+   "label": "Select Employee",
+   "options": "Employee"
   }
  ],
  "index_web_pages_for_search": 1,
@@ -123,7 +131,7 @@
    "link_fieldname": "employee_id"
   }
  ],
- "modified": "2024-09-26 11:25:10.014103",
+ "modified": "2024-09-26 15:55:29.534273",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Create Pay Slips",

@@ -168,9 +168,22 @@ frappe.ui.form.on("Create Pay Slips", {
       "hidden",
       frm.doc.genrate_for_all ? 1 : 0
     );
+    frm.set_value("select_company","")
     frm.set_df_property(
       "company_abbr",
       "hidden",
+      frm.doc.genrate_for_all ? 1 : 0
+    );
+    frm.set_value("company_abbr")
+    frm.set_df_property(
+      "select_employee",
+      "hidden",
+      frm.doc.genrate_for_all ? 1 : 0
+    );
+    frm.set_value("select_employee","")
+    frm.set_df_property(
+      "select_employee",
+      "disabled",
       frm.doc.genrate_for_all ? 1 : 0
     );
   },
