@@ -59,7 +59,8 @@
   {
    "fieldname": "generated_pay_slips_tab",
    "fieldtype": "Tab Break",
-   "label": "Pay Slips"
+   "label": "Pay Slips",
+   "show_dashboard": 1
   },
   {
    "fieldname": "created_pay_slips",
@@ -122,7 +123,7 @@
    "link_fieldname": "employee_id"
   }
  ],
- "modified": "2024-09-25 16:54:58.054020",
+ "modified": "2024-09-26 11:25:10.014103",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Create Pay Slips",

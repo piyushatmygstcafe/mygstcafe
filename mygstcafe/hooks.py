@@ -5,12 +5,22 @@ app_description = "An app for management"
 app_email = "piyushs@mygstcafe.in"
 app_license = "mit"
 
+import mygstcafe.after_install
 import mygstcafe.override_auth
 # import mygstcafe.payroll_management.add_attendance_status
 # import mygstcafe.payroll_management.calculate_salary
 
+after_install = "mygstcafe.after_install.after_install"
 
-
+# Custom Print Formats
+fixtures = [
+    {
+        "doctype": "Print Format",
+        "filters": {
+            "name": ["in", ["Pay Slip"]]
+        }
+    }
+]
 
 
 

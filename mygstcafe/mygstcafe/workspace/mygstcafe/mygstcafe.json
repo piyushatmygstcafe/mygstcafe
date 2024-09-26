@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "MYGSTCAFE",
  "links": [],
- "modified": "2024-09-13 10:40:25.138317",
+ "modified": "2024-09-26 11:42:03.544520",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "MYGSTCAFE",
@@ -22,7 +22,11 @@
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [],
+ "roles": [
+  {
+   "role": "Employee"
+  }
+ ],
  "sequence_id": 1.0,
  "shortcuts": [
   {

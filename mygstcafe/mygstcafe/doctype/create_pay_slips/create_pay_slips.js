@@ -2,12 +2,14 @@
 // For license information, please see license.txt
 var preventSubmission;
 frappe.ui.form.on("Create Pay Slips", {
+  onload: function (frm) {},
+
   refresh(frm) {
-    if (frm.genrate_for_all){
-      frm.set_df_property('select_company','hidden', 1)
-      frm.set_df_property('company_abbr','hidden', 1)
+    if (frm.genrate_for_all) {
+      frm.set_df_property("select_company", "hidden", 1);
+      frm.set_df_property("company_abbr", "hidden", 1);
     }
-    frm.select_company = frappe.defaults.get_user_default("company")
+    frm.select_company = frappe.defaults.get_user_default("company");
     let currentYear = new Date().getFullYear();
     if (!frm.doc.year) {
       frm.set_value("year", currentYear);
