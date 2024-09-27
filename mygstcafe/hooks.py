@@ -13,14 +13,7 @@ import mygstcafe.override_auth
 after_install = "mygstcafe.after_install.after_install"
 
 # Custom Print Formats
-fixtures = [
-    {
-        "doctype": "Print Format",
-        "filters": {
-            "name": ["in", ["Pay Slip Format"]]
-        }
-    }
-]
+fixtures = ['Print Format']
 
 
 
