@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"V14h1-91f2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MYGSTCAFE</span>\",\"col\":12}},{\"id\":\"yki_fPQ-0r\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create Pay Slips\",\"col\":3}},{\"id\":\"gH1kAI-Cmq\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slips\",\"col\":3}},{\"id\":\"JPIZ0Fv3gv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slip Records\",\"col\":3}}]",
+ "content": "[{\"id\":\"V14h1-91f2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MYGSTCAFE</span>\",\"col\":12}},{\"id\":\"Ds37UBsrh5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create Pay Slip\",\"col\":3}},{\"id\":\"JPIZ0Fv3gv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slip List\",\"col\":3}},{\"id\":\"6et173Omz2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slip Report\",\"col\":3}}]",
  "creation": "2024-09-04 13:30:55.175888",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "MYGSTCAFE",
  "links": [],
- "modified": "2024-09-26 11:42:03.544520",
+ "modified": "2024-09-27 15:16:06.814895",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "MYGSTCAFE",
@@ -32,7 +32,7 @@
   {
    "color": "Grey",
    "doc_view": "New",
-   "label": "Create Pay Slips",
+   "label": "Create Pay Slip",
    "link_to": "Create Pay Slips",
    "stats_filter": "[]",
    "type": "DocType"
@@ -40,7 +40,7 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Pay Slip Records",
+   "label": "Pay Slip List",
    "link_to": "Create Pay Slips",
    "stats_filter": "[]",
    "type": "DocType"
@@ -48,10 +48,9 @@
   {
    "color": "Grey",
    "doc_view": "List",
-   "label": "Pay Slips",
-   "link_to": "Pay Slips",
-   "stats_filter": "[]",
-   "type": "DocType"
+   "label": "Pay Slip Report",
+   "type": "URL",
+   "url": "/app/pay-slips-report"
   }
  ],
  "title": "MYGSTCAFE"
