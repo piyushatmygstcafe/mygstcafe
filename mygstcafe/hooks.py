@@ -10,7 +10,7 @@ import mygstcafe.override_auth
 # import mygstcafe.payroll_management.add_attendance_status
 # import mygstcafe.payroll_management.calculate_salary
 
-after_install = "mygstcafe.after_install.after_install"
+# after_install = "mygstcafe.after_install.after_install"
 
 # Custom Print Formats
 fixtures = ['Print Format']
