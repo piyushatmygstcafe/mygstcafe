@@ -4,7 +4,10 @@ from frappe import _
 import json
 import uuid
 from frappe import sendmail
+from collections import defaultdict
 from frappe.core.doctype.communication.email import make
+from mygstcafe.salary_calculation import calculate_monthly_salary
+from mygstcafe.mygstcafe.doctype.create_pay_slips.create_pay_slips import CreatePaySlips
 
 # API to get default company and list
 @frappe.whitelist(allow_guest=True)
@@ -156,3 +159,143 @@ def get_pay_slips_list(year=None,month=None):
     if not records:
         return frappe.throw("No records found!")
     return records
+
+@frappe.whitelist(allow_guest=True)
+def approve_pay_slip_req(employee,month,year):
+    self = []
+    if frappe.db.exists("Pay Slips", {'employee_id':employee,'month_num':month,'year':year}):
+        pay_slip = frappe.get_doc("Pay Slips",{'employee_id':employee,'month_num':month,'year':year})
+    else:
+        if month == 2:
+            # Check for leap year
+            if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
+                working_days = 29
+            else:
+                working_days = 28
+        elif month in [4, 6, 9, 11]:
+            working_days = 30
+        else:
+            working_days = 31
+            
+        holidays = frappe.db.sql("""SELECT holiday_date FROM tabHoliday WHERE MONTH(holiday_date) = %s AND YEAR(holiday_date) = %s """,(month, year),as_dict=True)
+        base_query = """
+            SELECT
+                e.company,
+                e.employee,
+                e.employee_name,
+                e.personal_email,
+                e.designation,
+                e.department,
+                e.pan_number,
+                e.date_of_joining,
+                e.grade,
+                e.attendance_device_id,
+                e.default_shift,
+                a.attendance_date,
+                a.in_time,
+                a.out_time
+            FROM
+                tabEmployee e
+            JOIN
+                tabAttendance a ON e.employee = a.employee
+            WHERE
+                YEAR(a.attendance_date) = %s AND MONTH(a.attendance_date) = %s AND e.employee = %s
+        """
+        filters = [year, month, employee]
+        records = frappe.db.sql(base_query, filters, as_dict=False)
+        if not records:
+            return frappe.throw("No records found!")
+        
+        # Initialize a defaultdict to organize employee records
+        emp_records = defaultdict(lambda: {
+            "company":"",
+            "employee": "",
+            "employee_name": "",
+            "personal_email": "",
+            "designation": "",
+            "department": "",
+            "pan_number": "",
+            "date_of_joining": "",
+            "basic_salary": 0,
+            "attendance_device_id": "",
+            "attendance_records": [],
+            "salary_information": {}
+        })
+        
+        # Populate employee records from the query results
+        for record in records:
+            (
+                company,employee_id, employee_name, personal_email, designation, department,
+                pan_number, date_of_joining, grade, attendance_device_id, shift,
+                attendance_date, in_time, out_time
+            ) = record
+            basic_salary = frappe.db.get_value('Employee Grade', { 'name':grade}, ['default_base_pay'])
+            if emp_records[employee_id]["employee"]:
+                # Employee already exists, append to attendance_records
+                emp_records[employee_id]["attendance_records"].append({
+                    "attendance_date": attendance_date,
+                    "shift":shift,
+                    "in_time": in_time,
+                    "out_time": out_time
+                })
+            else:
+                # Add new employee data
+                emp_records[employee_id] = {
+                    "company":company,
+                    "employee": employee_id,
+                    "employee_name": employee_name,
+                    "personal_email": personal_email,
+                    "designation": designation,
+                    "department": department,
+                    "pan_number": pan_number,
+                    "date_of_joining": date_of_joining,
+                    "basic_salary": basic_salary,
+                    "attendance_device_id": attendance_device_id,
+                    "shift":shift,
+                    "attendance_records": [{
+                        "attendance_date": attendance_date,
+                        "shift":shift,
+                        "in_time": in_time,
+                        "out_time": out_time
+                    }],
+                    "salary_information": {}
+                }
+        
+        # Calculate monthly salary for each employe
+        employee_data = calculate_monthly_salary(emp_records, working_days,holidays)
+        # Create pay slips and save them
+        # frappe.msgprint(str(dict(employee_data)))
+        CreatePaySlips.create_pay_slips(self,employee_data,month,year)
+        pay_slip = frappe.get_doc("Pay Slips",{'employee_id':employee,'month_num':month,'year':year})
+    
+    employee_name = pay_slip.employee_name
+    month = pay_slip.month
+    year = pay_slip.year
+    doctype = pay_slip.doctype
+    docname = pay_slip.name
+    personal_email = pay_slip.personal_email
+    
+    subject = f"Pay Slip for {employee_name} - {month} {year}"
+    
+    message = f"""
+    Dear {employee_name},
+    Please find attached your pay slip for {month} {year}.
+    Best regards,
+    Your Company
+    """
+    
+    pdf_attachment = frappe.attach_print(doctype, docname, file_name=f"Pay Slip {docname}")
+    
+    if personal_email:
+        frappe.sendmail(
+            recipients=[personal_email],
+            subject=subject,
+            message=message,
+            attachments=[{
+                'fname': f"Pay Slip - {employee_name}.pdf",
+                'fcontent': pdf_attachment
+            }],
+        )
+    else:
+        frappe.throw(f"No email address found for employee {employee_name}")
+

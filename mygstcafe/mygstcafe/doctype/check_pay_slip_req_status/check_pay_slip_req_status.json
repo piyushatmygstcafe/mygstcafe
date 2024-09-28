@@ -1,0 +1,48 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2024-09-28 14:46:52.948703",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "select_date",
+  "select_request"
+ ],
+ "fields": [
+  {
+   "fieldname": "select_date",
+   "fieldtype": "Date",
+   "label": "Select Date"
+  },
+  {
+   "fieldname": "select_request",
+   "fieldtype": "Select",
+   "label": "Select Request",
+   "options": "Select"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "is_virtual": 1,
+ "issingle": 1,
+ "links": [],
+ "modified": "2024-09-28 14:49:03.491652",
+ "modified_by": "Administrator",
+ "module": "MYGSTCAFE",
+ "name": "Check Pay Slip Req Status",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
