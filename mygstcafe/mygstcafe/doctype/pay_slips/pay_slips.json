@@ -98,6 +98,8 @@
   "column_break_lm7i",
   "other_earnings_overtime",
   "column_break_buem",
+  "other_ernings_holidays_amount",
+  "column_break_cgrd",
   "other_earnings_amount",
   "other_adjustments_section",
   "adjustments",
@@ -612,11 +614,20 @@
    "fieldtype": "Int",
    "hidden": 1,
    "label": "Month Num"
+  },
+  {
+   "fieldname": "column_break_cgrd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "other_ernings_holidays_amount",
+   "fieldtype": "Float",
+   "label": "Holidays Amount"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-27 17:05:51.730092",
+ "modified": "2024-09-30 13:22:47.373865",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Pay Slips",

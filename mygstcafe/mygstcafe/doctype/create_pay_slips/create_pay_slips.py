@@ -145,6 +145,7 @@ class CreatePaySlips(Document):
             half_day_working_amount = round((salary_info.get("half_days", 0) * .5 * salary_info.get("per_day_salary", 0)), 2)
             three_four_quarter_days_working_amount = round((salary_info.get("three_four_quarter_days", 0) * .25 * salary_info.get("per_day_salary", 0)), 2)
             lates_amount = round((salary_info.get("lates", 0) * salary_info.get("per_day_salary", 0) * .1), 2)
+            other_earnings_amount = round((salary_info.get("overtime", 0)), 2) + salary_info.get("holidays")
             
             month_mapping = {
                 1: "January",
@@ -203,8 +204,9 @@ class CreatePaySlips(Document):
                 'actual_working_days': salary_info.get("actual_working_days"),
                 'net_payble_amount': salary_info.get("total_salary"),
                 'other_earnings_overtime': salary_info.get("overtime"),
-                'other_earnings_amount': round((salary_info.get("overtime", 0)), 2),
+                'other_earnings_amount': other_earnings_amount,
                 'total': round(((full_day_working_amount + quarter_day_working_amount + half_day_working_amount + three_four_quarter_days_working_amount) - lates_amount), 2),
+                'other_ernings_holidays_amount': salary_info.get("holidays"),
             })
             
             # Insert the new document to save it in the database

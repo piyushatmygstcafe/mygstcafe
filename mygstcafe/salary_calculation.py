@@ -152,6 +152,7 @@ def calculate_monthly_salary(employee_data, total_working_days,holidays):
             "absent": total_absents,
             "lates": lates,
             "overtime": round(overtime_salry,2),
+            "holidays": round((len(holidays) * per_day_salary),2)
         }
     
     return employee_data
