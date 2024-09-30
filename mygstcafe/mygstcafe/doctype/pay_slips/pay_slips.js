@@ -2,6 +2,18 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Pay Slips", {
+  validate: function (frm) {
+    totalDays =
+      (frm.doc.full_day_working_days || 0) +
+      (frm.doc.quarter_day_working_days || 0) +
+      (frm.doc.half_day_working_days || 0) +
+      (frm.doc.three_four_quarter_days_working_days || 0);
+
+      if( totalDays > frm.doc.actual_working_days ){
+        frappe.throw("Actual days cannot be less then any of or total working days!")
+      }
+  },
+
   full_day_working_days: function (frm) {
     frm.set_value(
       "full_day_working_amount",
