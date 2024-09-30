@@ -102,6 +102,8 @@
   "column_break_cgrd",
   "other_earnings_amount",
   "other_adjustments_section",
+  "adjustment_type",
+  "column_break_6qho",
   "adjustments",
   "net_payable_amount_section",
   "net_payble_amount"
@@ -623,11 +625,23 @@
    "fieldname": "other_ernings_holidays_amount",
    "fieldtype": "Float",
    "label": "Holidays Amount"
+  },
+  {
+   "fieldname": "adjustment_type",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Adjustment Type",
+   "mandatory_depends_on": "adjustment",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_6qho",
+   "fieldtype": "Column Break"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-30 13:22:47.373865",
+ "modified": "2024-09-30 15:42:24.488083",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Pay Slips",

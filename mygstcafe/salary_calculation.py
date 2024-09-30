@@ -1,7 +1,7 @@
 import frappe
 from datetime import datetime, time
 
-def calculate_monthly_salary(employee_data, total_working_days,holidays):
+def calculate_monthly_salary(employee_data, total_working_days, holidays, year, month):
     
     for emp_id, data in employee_data.items():
         basic_salary = data.get("basic_salary", 0)
@@ -19,122 +19,105 @@ def calculate_monthly_salary(employee_data, total_working_days,holidays):
         total_absents = 0
         lates = 0
         sundays = 0
-        sundays_salry = 0.0
-        overtime_salry = 0.0
+        sundays_salary = 0.0
+        overtime_salary = 0.0
         actual_working_days = 0
         
-        for record in attendance_records:
-            if attendance_records:
-                attendance_date = record["attendance_date"]
-                in_time = record["in_time"]
-                out_time = record["out_time"]
-                shift = record["shift"]
+        # Loop through all days in the month
+        for day in range(1, total_working_days + 1):
+            today = datetime(year, month, day).date()
+            
+            # Check if there's an attendance record for this day
+            attendance_record = next((record for record in attendance_records if record['attendance_date'] == today), None)
+            
+            if attendance_record:
+                attendance_date = attendance_record["attendance_date"]
+                in_time = attendance_record["in_time"]
+                out_time = attendance_record["out_time"]
+                shift = attendance_record["shift"]
                 
-                shift = record["shift"]
-                shift_start = frappe.db.get_value('Shift Type', {"name": shift}, ["start_time"])
-
-                # Extract hours and minutes from the timedelta
+                # Get shift timings
+                shift_start = frappe.db.get_value('Shift Type', {"name": shift}, "start_time")
+                shift_end = frappe.db.get_value('Shift Type', {"name": shift}, "end_time")
+                
                 start_hours, remainder = divmod(shift_start.seconds, 3600)
-                start_minutes, start_seconds = divmod(remainder, 60)
-                shift_end = frappe.db.get_value('Shift Type', {"name": shift}, ["end_time"])
-                end_hours, remainder = divmod(shift_start.seconds, 3600)
-                end_minutes, end_seconds = divmod(remainder, 60)
-                ideal_check_in_time = datetime.combine(attendance_date,time(start_hours,start_minutes))
-                ideal_check_out_time = datetime.combine(attendance_date,time(end_hours,end_minutes))
-                overtime_threshold = datetime.combine(attendance_date,time(19,30))
+                start_minutes, _ = divmod(remainder, 60)
+                end_hours, remainder = divmod(shift_end.seconds, 3600)
+                end_minutes, _ = divmod(remainder, 60)
                 
-                if in_time is not None and out_time is not None:
-                    temp_in = in_time.time()
-                    check_in = datetime.combine(attendance_date,temp_in)
-                    check_in_date = check_in.date()
-                    temp_out = out_time.time()
-                    check_out = datetime.combine(attendance_date,temp_out)
-                    total_working_time = check_out - check_in
-                    total_working_hours = total_working_time.total_seconds() / 3600 
+                ideal_check_in_time = datetime.combine(attendance_date, time(start_hours, start_minutes))
+                ideal_check_out_time = datetime.combine(attendance_date, time(end_hours, end_minutes))
+                overtime_threshold = datetime.combine(attendance_date, time(19, 30))
+                
+                if in_time and out_time:
+                    check_in = datetime.combine(attendance_date, in_time.time())
+                    check_out = datetime.combine(attendance_date, out_time.time())
                     
+                    total_working_time = check_out - check_in
+                    total_working_hours = total_working_time.total_seconds() / 3600
+                    
+                    # Calculate full/partial days and overtime
                     if 7.875 <= total_working_hours <= 10.125:
-                        overtime_salry = 0
+                        overtime_salary = 0
                         if total_working_hours > 9 and check_out > overtime_threshold:
                             extra_time = check_out - ideal_check_out_time
                             overtime = extra_time.total_seconds() / 60
                             min_overtime_salary = per_day_salary / 540
-                            overtime_salry = overtime * min_overtime_salary
-                            
-                        if check_in_date.weekday() == 6:
-                            sundays_salry += per_day_salary
-                            sundays +=1
-                            actual_working_days += 1
-                        else:  
+                            overtime_salary = overtime * min_overtime_salary
+                        
+                        if attendance_date.weekday() == 6:  # Sunday
+                            sundays_salary += per_day_salary
+                            sundays += 1
+                        else:
                             full_days += 1
-                            actual_working_days += 1
                             total_salary += per_day_salary
                     
                     elif 5.625 <= total_working_hours < 7.875:
-                        if check_in_date.weekday() == 6:
-                            sundays_salry += 0.75 * per_day_salary
-                            sundays +=1
-                            actual_working_days += 1
-                        else: 
+                        if attendance_date.weekday() == 6:
+                            sundays_salary += 0.75 * per_day_salary
+                            sundays += 1
+                        else:
                             quarter_days += 1
-                            actual_working_days += 1
                             total_salary += 0.75 * per_day_salary
                     
                     elif 3.375 <= total_working_hours < 5.625:
-                        if check_in_date.weekday() == 6:
-                            sundays_salry += 0.5 * per_day_salary
-                            sundays +=1
-                            actual_working_days += 1
+                        if attendance_date.weekday() == 6:
+                            sundays_salary += 0.5 * per_day_salary
+                            sundays += 1
                         else:
                             half_days += 1
-                            actual_working_days += 1
                             total_salary += 0.5 * per_day_salary
-                        
+                    
                     elif 1.125 <= total_working_hours < 3.375:
-                        if check_in_date.weekday() == 6:
-                            sundays_salry += 0.25 * per_day_salary
-                            sundays +=1
-                            actual_working_days += 1
+                        if attendance_date.weekday() == 6:
+                            sundays_salary += 0.25 * per_day_salary
+                            sundays += 1
                         else:
                             three_four_quarter_days += 1
-                            actual_working_days += 1
                             total_salary += 0.25 * per_day_salary
                     
-                    else:
-                        overtime_salry = 0
-                        if total_working_hours > 10.125 and check_out > overtime_threshold:
-                            if check_in_date.weekday() == 6:
-                                extra_time = check_out - ideal_check_out_time
-                                overtime = extra_time.total_seconds() / 60
-                                min_overtime_salary = per_day_salary / 540
-                                sundays_salry = overtime * min_overtime_salary
-                                sundays +=1
-                                actual_working_days += 1
-                            else:
-                                extra_time = check_out - ideal_check_out_time
-                                overtime = extra_time.total_seconds() / 60
-                                min_overtime_salary = per_day_salary / 540
-                                overtime_salry = overtime * min_overtime_salary 
+                    # Deduction for late entry
+                    if check_in > ideal_check_in_time and attendance_date.weekday() != 6:
+                        lates += 1
+                        late_deduction = 0.10 * per_day_salary
+                        total_late_deductions += late_deduction
                     
-                    if check_in > ideal_check_in_time:
-                        if check_in_date.weekday() != 6:
-                            lates += 1
-                            late_deduction = 0.10 * per_day_salary
-                            total_late_deductions += late_deduction
+                    actual_working_days += 1
                 else:
-                    if any(attendance_date == holiday['holiday_date'] for holiday in holidays):
+                    # Handle holidays and absent
+                    if any(holiday['holiday_date'] == today for holiday in holidays):
                         pass
                     else:
                         total_absents += 1
-                        total_salary += 0          
             else:
-                if any(attendance_date == holiday['holiday_date'] for holiday in holidays):
+                # Handle holidays and absent
+                if any(holiday['holiday_date'] == today for holiday in holidays):
                     pass
                 else:
                     total_absents += 1
-                    total_salary += 0 
         
         total_salary -= total_late_deductions
-        total_salary += sundays_salry + overtime_salry + (len(holidays) * per_day_salary)
+        total_salary += sundays_salary + overtime_salary + (len(holidays) * per_day_salary)
         
         data["salary_information"] = {
             "basic_salary": basic_salary,
@@ -145,14 +128,14 @@ def calculate_monthly_salary(employee_data, total_working_days,holidays):
             "half_days": half_days,
             "quarter_days": quarter_days,
             "three_four_quarter_days": three_four_quarter_days,
-            "sundays_working_days":sundays,
-            "sundays_salry":sundays_salry,
-            "total_salary": round(total_salary,2),
+            "sundays_working_days": sundays,
+            "sundays_salary": sundays_salary,
+            "total_salary": round(total_salary, 2),
             "total_late_deductions": total_late_deductions,
             "absent": total_absents,
             "lates": lates,
-            "overtime": round(overtime_salry,2),
-            "holidays": round((len(holidays) * per_day_salary),2)
+            "overtime": round(overtime_salary, 2),
+            "holidays": round((len(holidays) * per_day_salary), 2)
         }
     
     return employee_data
