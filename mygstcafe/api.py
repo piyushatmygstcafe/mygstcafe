@@ -160,6 +160,7 @@ def get_pay_slips_list(year=None,month=None):
         return frappe.throw("No records found!")
     return records
 
+# API to approve pay slip request
 @frappe.whitelist(allow_guest=True)
 def approve_pay_slip_req(employee,month,year):
     self = []
@@ -299,3 +300,19 @@ def approve_pay_slip_req(employee,month,year):
     else:
         frappe.throw(f"No email address found for employee {employee_name}")
 
+@frappe.whitelist(allow_guest=True)
+def get_pay_slip_request(date=None,requested_by=None):
+    
+    if date is None and requested_by is None:
+        return frappe.throw("No date or requested by is not found")
+    
+    records = frappe.db.sql("""
+                            SELECT name 
+                            FROM `tabRequest Pay Slip` 
+                            WHERE requested_date = %s OR  requested_by = %s;""",
+                            (date,requested_by),as_dict=True)
+    
+    if not records:
+        return frappe.throw("No requests found")
+    
+    return records

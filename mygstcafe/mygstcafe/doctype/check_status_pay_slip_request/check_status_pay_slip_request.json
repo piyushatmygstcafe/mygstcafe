@@ -1,12 +1,13 @@
 {
  "actions": [],
  "allow_rename": 1,
- "creation": "2024-09-28 14:46:52.948703",
+ "creation": "2024-09-28 16:16:37.032477",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "select_date",
-  "select_request"
+  "select_requested_by",
+  "selecte_pay_slip_request"
  ],
  "fields": [
   {
@@ -15,28 +16,34 @@
    "label": "Select Date"
   },
   {
-   "fieldname": "select_request",
+   "fieldname": "select_requested_by",
+   "fieldtype": "Link",
+   "label": "Select Requested By",
+   "options": "Employee"
+  },
+  {
+   "fieldname": "selecte_pay_slip_request",
    "fieldtype": "Select",
-   "label": "Select Request",
+   "label": "Selecte Pay Slip Request",
    "options": "Select"
   }
  ],
  "index_web_pages_for_search": 1,
- "is_virtual": 1,
- "issingle": 1,
  "links": [],
- "modified": "2024-09-28 14:49:03.491652",
+ "modified": "2024-09-28 16:20:29.031586",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
- "name": "Check Pay Slip Req Status",
+ "name": "Check Status Pay Slip Request",
  "owner": "Administrator",
  "permissions": [
   {
    "create": 1,
    "delete": 1,
    "email": 1,
+   "export": 1,
    "print": 1,
    "read": 1,
+   "report": 1,
    "role": "System Manager",
    "share": 1,
    "write": 1

@@ -5,5 +5,5 @@
 from frappe.tests.utils import FrappeTestCase
 
 
-class TestCheckPaySlipReqStatus(FrappeTestCase):
+class TestCheckStatusPaySlipRequest(FrappeTestCase):
 	pass
