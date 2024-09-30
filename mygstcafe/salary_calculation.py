@@ -9,7 +9,7 @@ def calculate_monthly_salary(employee_data, total_working_days, holidays, year, 
         
         per_day_salary = round(basic_salary / total_working_days, 2)
         
-        # Initialize counters
+        
         total_salary = 0.0
         total_late_deductions = 0.0
         full_days = 0
@@ -23,11 +23,11 @@ def calculate_monthly_salary(employee_data, total_working_days, holidays, year, 
         overtime_salary = 0.0
         actual_working_days = 0
         
-        # Loop through all days in the month
+        
         for day in range(1, total_working_days + 1):
             today = datetime(year, month, day).date()
             
-            # Check if there's an attendance record for this day
+           
             attendance_record = next((record for record in attendance_records if record['attendance_date'] == today), None)
             
             if attendance_record:
@@ -36,7 +36,7 @@ def calculate_monthly_salary(employee_data, total_working_days, holidays, year, 
                 out_time = attendance_record["out_time"]
                 shift = attendance_record["shift"]
                 
-                # Get shift timings
+                
                 shift_start = frappe.db.get_value('Shift Type', {"name": shift}, "start_time")
                 shift_end = frappe.db.get_value('Shift Type', {"name": shift}, "end_time")
                 
@@ -56,7 +56,7 @@ def calculate_monthly_salary(employee_data, total_working_days, holidays, year, 
                     total_working_time = check_out - check_in
                     total_working_hours = total_working_time.total_seconds() / 3600
                     
-                    # Calculate full/partial days and overtime
+                    
                     if 7.875 <= total_working_hours <= 10.125:
                         overtime_salary = 0
                         if total_working_hours > 9 and check_out > overtime_threshold:
@@ -65,7 +65,7 @@ def calculate_monthly_salary(employee_data, total_working_days, holidays, year, 
                             min_overtime_salary = per_day_salary / 540
                             overtime_salary = overtime * min_overtime_salary
                         
-                        if attendance_date.weekday() == 6:  # Sunday
+                        if attendance_date.weekday() == 6:  
                             sundays_salary += per_day_salary
                             sundays += 1
                         else:
@@ -96,7 +96,7 @@ def calculate_monthly_salary(employee_data, total_working_days, holidays, year, 
                             three_four_quarter_days += 1
                             total_salary += 0.25 * per_day_salary
                     
-                    # Deduction for late entry
+                   
                     if check_in > ideal_check_in_time and attendance_date.weekday() != 6:
                         lates += 1
                         late_deduction = 0.10 * per_day_salary
@@ -104,13 +104,13 @@ def calculate_monthly_salary(employee_data, total_working_days, holidays, year, 
                     
                     actual_working_days += 1
                 else:
-                    # Handle holidays and absent
+                    
                     if any(holiday['holiday_date'] == today for holiday in holidays):
                         pass
                     else:
                         total_absents += 1
             else:
-                # Handle holidays and absent
+            
                 if any(holiday['holiday_date'] == today for holiday in holidays):
                     pass
                 else:

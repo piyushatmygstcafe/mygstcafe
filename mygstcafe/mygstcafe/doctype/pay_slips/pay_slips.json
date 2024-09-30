@@ -631,8 +631,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Adjustment Type",
-   "mandatory_depends_on": "adjustment",
-   "reqd": 1
+   "mandatory_depends_on": "adjustments"
   },
   {
    "fieldname": "column_break_6qho",
@@ -641,7 +640,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-30 15:42:24.488083",
+ "modified": "2024-09-30 16:21:12.303628",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Pay Slips",
