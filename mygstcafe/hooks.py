@@ -14,7 +14,8 @@ import mygstcafe.override_auth
 
 # Custom Print Formats
 fixtures = [
-    {'dt': 'Print Format', 'filters': [['name', 'in', ['Pay Slip Format']]]}
+    {'dt': 'Print Format', 'filters': [['name', 'in', ['Pay Slip Format']]]},
+    {'dt':'Custom Field','filters':[['name','in',['Employee Checkin-custom_comment']]]}
 ]
 
 
