@@ -218,7 +218,7 @@
       "delete": 0,
       "read": 1,
       "role": "Employee",
-      "write": 0
+      "write": 1
      },
      {
       "delete": 1,
