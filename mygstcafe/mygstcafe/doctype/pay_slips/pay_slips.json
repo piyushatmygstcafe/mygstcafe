@@ -96,7 +96,7 @@
   "column_break_fcpa",
   "other_earnings_special_incentives",
   "column_break_lm7i",
-  "other_earnings_overtime",
+  "other_earnings_leave_encashent",
   "column_break_buem",
   "other_ernings_holidays_amount",
   "column_break_cgrd",
@@ -546,12 +546,6 @@
   },
   {
    "default": "0",
-   "fieldname": "other_earnings_overtime",
-   "fieldtype": "Currency",
-   "label": "Overtime"
-  },
-  {
-   "default": "0",
    "fieldname": "three_four_quarter_days_working_days",
    "fieldtype": "Int",
    "label": "Days"
@@ -636,11 +630,17 @@
   {
    "fieldname": "column_break_6qho",
    "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "other_earnings_leave_encashent",
+   "fieldtype": "Currency",
+   "label": "Leave Encashent"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-09-30 16:21:12.303628",
+ "modified": "2024-10-01 12:20:06.113335",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Pay Slips",

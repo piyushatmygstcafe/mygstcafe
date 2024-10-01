@@ -79,7 +79,7 @@ frappe.ui.form.on("Pay Slips", {
     setOthersEarningAmount(frm);
   },
 
-  other_earnings_overtime: function (frm) {
+  other_earnings_leave_encashent: function (frm) {
     setOthersEarningAmount(frm);
   },
 
@@ -137,6 +137,6 @@ function setOthersEarningAmount(frm) {
     (frm.doc.other_earnings_incentives || 0) +
     (frm.doc.other_earning_project_deadline_allowance || 0) +
     (frm.doc.other_earnings_special_incentives || 0) +
-    (frm.doc.other_earnings_overtime || 0);
+    (frm.doc.other_earnings_leave_encashent || 0);
   frm.set_value("other_earnings_amount", otherEarningsAmount);
 }
