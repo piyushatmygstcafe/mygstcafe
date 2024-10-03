@@ -19,7 +19,7 @@ def calculate_monthly_salary(employee_data, total_working_days, holidays, year, 
         quarter_days = 0
         three_four_quarter_days = 0
         total_absents = 0
-        lates = 0
+        lates = -6
         sundays = 0
         sundays_salary = 0.0
         overtime_salary = 0.0
@@ -102,7 +102,7 @@ def calculate_monthly_salary(employee_data, total_working_days, holidays, year, 
                     if check_in > ideal_check_in_time and attendance_date.weekday() != 6:
                         lates += 1
                         late_deduction = 0.10 * per_day_salary
-                        total_late_deductions += late_deduction
+                        total_late_deductions = lates * late_deduction
                     actual_working_days += 1
                 else:
                     if any(holiday['holiday_date'] == today for holiday in holidays):
