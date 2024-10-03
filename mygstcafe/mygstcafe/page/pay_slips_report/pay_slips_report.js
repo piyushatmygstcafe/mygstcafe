@@ -51,11 +51,13 @@ frappe.pages["pay-slips-report"].on_page_load = function (wrapper) {
     }
     let month = $form.find("#month").val();
     if (year && month) {
+      currUser = frappe.session.user_email
       frappe.call({
         method: "mygstcafe.api.get_pay_slips_list",
         args: {
           year: year,
           month: month,
+          curr_user:currUser,
         },
         callback: function (res) {
           if (res.message) {
@@ -92,6 +94,7 @@ function pay_slip_list(records) {
   });
 
   table += `</tbody></table>`;
+  
   document.getElementById("pay_slip_table").innerHTML = table;
 
   document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {

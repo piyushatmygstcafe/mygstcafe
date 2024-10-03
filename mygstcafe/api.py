@@ -151,11 +151,19 @@ def email_pay_slip(pay_slips=None, raw_data=None):
             frappe.throw(f"No email address found for employee {employee_name}")
             
 @frappe.whitelist(allow_guest=True)
-def get_pay_slips_list(year=None,month=None):
+def get_pay_slips_list(year=None,month=None, curr_user=None):
+    data = frappe.db.sql("""SELECT name FROM tabEmployee WHERE personal_email = %s  OR company_email = %s;""",(curr_user,curr_user),as_dict=True)
+    
+    if not data:
+        return frappe.throw("No Employee Data found or you don't have access!")
+    
+    employee_id = data[0].get('name')
+    
     records = frappe.db.get_all("Pay Slips",
-                                filters={"year": year, "month_num": month},
+                                filters={"year": year, "month_num": month,'employee_id':employee_id,},
                                 fields=["name", "employee_name","net_payble_amount"]
                                 )
+    
     if not records:
         return frappe.throw("No records found!")
     return records
@@ -301,7 +309,7 @@ def approve_pay_slip_req(employee,month,year):
         frappe.throw(f"No email address found for employee {employee_name}")
 
 @frappe.whitelist(allow_guest=True)
-def get_pay_slip_request(date=None,requested_by=None):
+def get_pay_slip_request(date=None,requested_by=None): 
     
     if date is None and requested_by is None:
         return frappe.throw("No date or requested by is not found")

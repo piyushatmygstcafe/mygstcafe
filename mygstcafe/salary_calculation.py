@@ -3,6 +3,8 @@ from datetime import datetime, time
 
 def calculate_monthly_salary(employee_data, total_working_days, holidays, year, month):
     
+    
+    
     for emp_id, data in employee_data.items():
         basic_salary = data.get("basic_salary", 0)
         attendance_records = data.get("attendance_records", [])
@@ -101,16 +103,13 @@ def calculate_monthly_salary(employee_data, total_working_days, holidays, year, 
                         lates += 1
                         late_deduction = 0.10 * per_day_salary
                         total_late_deductions += late_deduction
-                    
                     actual_working_days += 1
                 else:
-                    
                     if any(holiday['holiday_date'] == today for holiday in holidays):
                         pass
                     else:
                         total_absents += 1
             else:
-            
                 if any(holiday['holiday_date'] == today for holiday in holidays):
                     pass
                 else:
