@@ -1,6 +1,6 @@
 {
  "charts": [],
- "content": "[{\"id\":\"V14h1-91f2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MYGSTCAFE</span>\",\"col\":12}},{\"id\":\"JPIZ0Fv3gv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slip List\",\"col\":3}},{\"id\":\"Ds37UBsrh5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create Pay Slip\",\"col\":3}},{\"id\":\"6et173Omz2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slip Report\",\"col\":3}},{\"id\":\"Hrx12zEMGX\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Request For Slip\",\"col\":3}},{\"id\":\"Xpxr7PNzbH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Check Pay Slip Req Status\",\"col\":3}}]",
+ "content": "[{\"id\":\"V14h1-91f2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MYGSTCAFE</span>\",\"col\":12}},{\"id\":\"6et173Omz2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slip Report\",\"col\":3}},{\"id\":\"Ds37UBsrh5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create Pay Slip\",\"col\":3}},{\"id\":\"JPIZ0Fv3gv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slip List\",\"col\":3}},{\"id\":\"Hrx12zEMGX\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Request For Slip\",\"col\":3}}]",
  "creation": "2024-09-04 13:30:55.175888",
  "custom_blocks": [],
  "docstatus": 0,
@@ -13,7 +13,7 @@
  "is_hidden": 0,
  "label": "MYGSTCAFE",
  "links": [],
- "modified": "2024-09-28 15:04:35.563834",
+ "modified": "2024-10-04 11:15:21.298511",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "MYGSTCAFE",

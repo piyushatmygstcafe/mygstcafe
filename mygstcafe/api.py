@@ -53,7 +53,7 @@ def get_item_defaults():
     
     return default_company
 
-# API to get pay slips
+# API to get pay slips in create pay slips
 @frappe.whitelist(allow_guest=True)
 def get_pay_slip_list(month, parent_docname):
     pay_slip_list = frappe.db.sql("""
@@ -149,22 +149,30 @@ def email_pay_slip(pay_slips=None, raw_data=None):
             )
         else:
             frappe.throw(f"No email address found for employee {employee_name}")
-            
+ 
+# API to get pay slip report           
 @frappe.whitelist(allow_guest=True)
-def get_pay_slips_list(year=None,month=None, curr_user=None):
+def get_pay_slip_report(year=None,month=None, curr_user=None):
     
+    user_roles = frappe.get_roles(curr_user)
     
-    data = frappe.db.sql("""SELECT name FROM tabEmployee WHERE personal_email = %s  OR company_email = %s;""",(curr_user,curr_user),as_dict=True)
-    
-    if not data:
-        return frappe.throw("No Employee Data found or you don't have access!")
-    
-    employee_id = data[0].get('name')
-    
-    records = frappe.db.get_all("Pay Slips",
-                                filters={"year": year, "month_num": month,'employee_id':employee_id,},
-                                fields=["name", "employee_name","net_payble_amount"]
-                                )
+    if 'All' in user_roles or 'HR User' in user_roles or 'HR Manager' in user_roles:
+        records = frappe.db.get_all("Pay Slips",
+                                    filters={"year": year, "month_num": month,},
+                                    fields=["name", "employee_name","net_payble_amount"]
+                                    )
+    else:
+        data = frappe.db.sql("""SELECT name FROM tabEmployee WHERE personal_email = %s  OR company_email = %s;""",(curr_user,curr_user),as_dict=True)
+        
+        if not data:
+            return frappe.throw("No Employee Data found or you don't have access!")
+        
+        employee_id = data[0].get('name')
+        
+        records = frappe.db.get_all("Pay Slips",
+                                    filters={"year": year, "month_num": month,'employee_id':employee_id,},
+                                    fields=["name", "employee_name","net_payble_amount"]
+                                    )
     
     if not records:
         return frappe.throw("No records found!")
