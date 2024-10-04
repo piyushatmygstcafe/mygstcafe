@@ -53,7 +53,7 @@ frappe.pages["pay-slips-report"].on_page_load = function (wrapper) {
     if (year && month) {
       currUser = frappe.session.user_email
       frappe.call({
-        method: "mygstcafe.api.get_pay_slips_list",
+        method: "mygstcafe.api.get_pay_slip_report",
         args: {
           year: year,
           month: month,
