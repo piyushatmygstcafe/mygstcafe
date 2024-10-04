@@ -73,8 +73,8 @@ def get_pay_slip_list(month, parent_docname):
         """, (
             generated_name,                 # name
             pay_slip['name'],               # pay_slip
-            pay_slip['employee_name'],        # employee
-            pay_slip['net_payble_amount'],# salary
+            pay_slip['employee_name'],      # employee
+            pay_slip['net_payble_amount'],  # salary
             parent_docname,                 # parent
             'Create Pay Slips',             # parenttype
             'created_pay_slips'             # parentfield
@@ -152,6 +152,8 @@ def email_pay_slip(pay_slips=None, raw_data=None):
             
 @frappe.whitelist(allow_guest=True)
 def get_pay_slips_list(year=None,month=None, curr_user=None):
+    
+    
     data = frappe.db.sql("""SELECT name FROM tabEmployee WHERE personal_email = %s  OR company_email = %s;""",(curr_user,curr_user),as_dict=True)
     
     if not data:

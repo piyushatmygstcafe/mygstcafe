@@ -20,13 +20,13 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
     if month == 2:
         # Check for leap year
         if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
-            working_days = 29
+            total_working_days = 29
         else:
-            working_days = 28
+            total_working_days = 28
     elif month in [4, 6, 9, 11]:
-        working_days = 30
+        total_working_days = 30
     else:
-        working_days = 31
+        total_working_days = 31
 
     # Construct the base query
     base_query = """
@@ -122,7 +122,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
             }
 
     # Calculate monthly salary for each employee
-    employee_data = calculate_monthly_salary(emp_records, working_days,holidays)
+    employee_data = calculate_monthly_salary(emp_records, total_working_days, holidays, year, month)
 
     for emp_id, data in employee_data.items():
         
@@ -149,6 +149,7 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
         half_day_working_amount = round((salary_info.get("half_days", 0) * .5 * salary_info.get("per_day_salary", 0)), 2)
         three_four_quarter_days_working_amount = round((salary_info.get("three_four_quarter_days", 0) * .25 * salary_info.get("per_day_salary", 0)), 2)
         lates_amount = round((salary_info.get("lates", 0) * salary_info.get("per_day_salary", 0) * .1), 2)
+        other_earnings_amount = round((salary_info.get("overtime", 0)), 2) + salary_info.get("holidays")
         
         # Check if a Pay Slip already exists for the employee
         existing_doc = frappe.get_all('Pay Slips', filters={
@@ -202,7 +203,8 @@ def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, select
           'actual_working_days': salary_info.get("actual_working_days"),
           'net_payble_amount': salary_info.get("total_salary"),
           'other_earnings_overtime': salary_info.get("overtime"),
-          'other_earnings_amount': round((salary_info.get("overtime", 0)), 2),
+          'other_earnings_amount': other_earnings_amount,
+          'other_ernings_holidays_amount': salary_info.get("holidays"),
           'total': round(((full_day_working_amount + quarter_day_working_amount + half_day_working_amount + three_four_quarter_days_working_amount) - lates_amount), 2),
         })
         

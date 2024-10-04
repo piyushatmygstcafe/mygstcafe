@@ -101,19 +101,7 @@ frappe.ui.form.on("Create Pay Slips", {
   },
 
   after_save(frm) {
-    frappe.call({
-      method: "mygstcafe.api.get_pay_slip_list",
-      args: {
-        month: frm.doc.month,
-        parent_docname: frm.docname,
-      },
-      callback: function (res) {
-        frm.reload_doc();
-      },
-      error: function (r) {
-        frappe.msgprint(r.message);
-      },
-    });
+    createPaySlipList(frm)
   },
 
   select_month(frm) {
@@ -192,7 +180,7 @@ function add_email_btn(frm) {
   frm.fields_dict["created_pay_slips"].grid.wrapper
     .find(".grid-add-row")
     .hide();
-  frm.fields_dict["created_pay_slips"].grid.wrapper
+   frm.fields_dict["created_pay_slips"].grid.wrapper
     .find(".grid-remove-rows")
     .hide();
   frm.fields_dict["created_pay_slips"].grid.add_custom_button(
@@ -220,4 +208,20 @@ function add_email_btn(frm) {
     },
     "Actions"
   );
+}
+
+function createPaySlipList(frm){
+  frappe.call({
+    method: "mygstcafe.api.get_pay_slip_list",
+    args: {
+      month: frm.doc.month,
+      parent_docname: frm.docname,
+    },
+    callback: function (res) {
+      frm.reload_doc();
+    },
+    error: function (r) {
+      frappe.msgprint(r.message);
+    },
+  });
 }

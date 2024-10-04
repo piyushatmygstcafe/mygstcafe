@@ -7,6 +7,10 @@ from collections import defaultdict
 from mygstcafe.salary_calculation import calculate_monthly_salary
 
 class CreatePaySlips(Document):
+    
+    def autoname(self):
+        if self.genrate_for_all:
+            self.name = f"For-all-pay-slip-{self.year}-{self.month}"
 
     def get_emp_records(self):
         
