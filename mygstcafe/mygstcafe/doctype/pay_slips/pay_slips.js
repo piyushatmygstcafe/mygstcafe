@@ -108,6 +108,11 @@ frappe.ui.form.on("Pay Slips", {
       frm.set_value(field, frm.doc.per_day_salary);
     });
   },
+
+  sundays_working_days: function (frm) {
+    frm.set_value("sunday_working_amount",frm.doc.sundays_working_days * frm.sunday_working_rate)
+    calculate_net_payable(frm);
+  },
 });
 
 function calculate_gross(frm) {
@@ -128,7 +133,7 @@ function calculate_net_payable(frm) {
     (frm.doc.other_earnings_amount || 0) -
     (frm.doc.adjustments || 0);
 
-  frm.set_value("net_payble_amount", net_payable);
+  frm.set_value("net_payble_amount", Math.round(net_payable));
 }
 
 function setOthersEarningAmount(frm) {

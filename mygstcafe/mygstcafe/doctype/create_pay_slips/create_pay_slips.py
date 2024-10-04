@@ -206,7 +206,7 @@ class CreatePaySlips(Document):
                 'lates_amount': lates_amount,
                 'absent': salary_info.get("absent"),
                 'sundays_working_days': salary_info.get("sundays_working_days"),
-                'sunday_working_amount': salary_info.get("sundays_salry"),
+                'sunday_working_amount': salary_info.get("sundays_salary"),
                 'sunday_working_rate':salary_info.get("per_day_salary"),
                 'actual_working_days': salary_info.get("actual_working_days"),
                 'net_payble_amount': salary_info.get("total_salary"),

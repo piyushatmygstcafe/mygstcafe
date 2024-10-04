@@ -174,6 +174,7 @@ frappe.ui.form.on("Create Pay Slips", {
       frm.doc.genrate_for_all ? 1 : 0
     );
   },
+
 });
 
 function add_email_btn(frm) {

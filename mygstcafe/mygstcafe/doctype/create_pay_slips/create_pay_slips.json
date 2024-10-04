@@ -84,13 +84,6 @@
    "label": "Add regenrate button"
   },
   {
-   "fieldname": "select_month",
-   "fieldtype": "Select",
-   "label": "Select Month",
-   "options": "Select\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember",
-   "reqd": 1
-  },
-  {
    "fieldname": "month",
    "fieldtype": "Int",
    "hidden": 1,
@@ -121,6 +114,14 @@
    "fieldtype": "Link",
    "label": "Select Employee",
    "options": "Employee"
+  },
+  {
+   "fieldname": "select_month",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Month",
+   "options": "Select\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,
@@ -130,7 +131,7 @@
    "link_fieldname": "employee_id"
   }
  ],
- "modified": "2024-09-27 17:03:27.648281",
+ "modified": "2024-10-04 12:15:50.414207",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Create Pay Slips",
