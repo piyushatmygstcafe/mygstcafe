@@ -320,6 +320,7 @@ def approve_pay_slip_req(employee,month,year):
     else:
         frappe.throw(f"No email address found for employee {employee_name}")
 
+#API to get pay slip for pay slip request
 @frappe.whitelist(allow_guest=True)
 def get_pay_slip_request(date=None,requested_by=None): 
     
@@ -337,6 +338,7 @@ def get_pay_slip_request(date=None,requested_by=None):
     
     return records
 
+#API to print pay slip
 @frappe.whitelist(allow_guest=True)
 def print_pay_slip(pay_slips):
     return frappe.throw("Coming Soon!")

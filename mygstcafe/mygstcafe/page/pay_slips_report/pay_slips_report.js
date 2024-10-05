@@ -55,7 +55,7 @@ frappe.pages["pay-slips-report"].on_page_load = function (wrapper) {
   `).appendTo(page.body);
 
   // Fetch records on button click
- 
+
   $form.find("#fetch_records").click(function () {
     let year = $form.find("#year").val();
     if (year < 1000 || year > 9999) {
@@ -76,7 +76,6 @@ frappe.pages["pay-slips-report"].on_page_load = function (wrapper) {
             records = res.message;
             pay_slip_list(records);
             $form.find("#fetch_records").hide();
-            
           }
         },
       });
@@ -118,9 +117,9 @@ function pay_slip_list(records) {
         document.querySelectorAll('input[type="checkbox"]:checked').length > 0;
 
       if (anyChecked) {
-        actionButton.style.display = "inline-block"; // Show the action button
+        actionButton.style.display = "inline-block";
       } else {
-        actionButton.style.display = "none"; // Hide the action button
+        actionButton.style.display = "none";
       }
     });
   });
