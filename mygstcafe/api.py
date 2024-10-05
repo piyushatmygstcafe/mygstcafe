@@ -6,6 +6,8 @@ import uuid
 from frappe import sendmail
 from collections import defaultdict
 from frappe.core.doctype.communication.email import make
+import frappe.utils
+import frappe.utils.print_format
 from mygstcafe.salary_calculation import calculate_monthly_salary
 from mygstcafe.mygstcafe.doctype.create_pay_slips.create_pay_slips import CreatePaySlips
 
@@ -334,3 +336,10 @@ def get_pay_slip_request(date=None,requested_by=None):
         return frappe.throw("No requests found")
     
     return records
+
+@frappe.whitelist(allow_guest=True)
+def print_pay_slip(pay_slips):
+    return frappe.throw("Coming Soon!")
+    pay_slips = json.loads(pay_slips)
+    for pay_slip in pay_slips:
+        frappe.utils.print_format.download_pdf('Pay Slips', pay_slip, format='Pay Slip Format')

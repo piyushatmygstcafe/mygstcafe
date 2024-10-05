@@ -110,7 +110,7 @@ frappe.ui.form.on("Pay Slips", {
   },
 
   sundays_working_days: function (frm) {
-    frm.set_value("sunday_working_amount",frm.doc.sundays_working_days * frm.sunday_working_rate)
+    frm.set_value("sunday_working_amount",frm.doc.sundays_working_days * frm.doc.sunday_working_rate)
     calculate_net_payable(frm);
   },
 });

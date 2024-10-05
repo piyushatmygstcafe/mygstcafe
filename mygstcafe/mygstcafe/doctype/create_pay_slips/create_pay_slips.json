@@ -125,13 +125,8 @@
   }
  ],
  "index_web_pages_for_search": 1,
- "links": [
-  {
-   "link_doctype": "Pay Slips",
-   "link_fieldname": "employee_id"
-  }
- ],
- "modified": "2024-10-04 12:15:50.414207",
+ "links": [],
+ "modified": "2024-10-05 13:52:42.603935",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "Create Pay Slips",
