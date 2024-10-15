@@ -32,10 +32,14 @@ def get_default_company_and_list():
 # API to set default settings
 @frappe.whitelist(allow_guest=True)
 def set_default_settings(data):
-    
+    user = ""
     data = json.loads(data)  
     company_name = data.get('company_name')
     fiscal_year = data.get('fiscal_year')
+    curr_user = data.get('currUser')
+    user_roles = frappe.get_roles(curr_user) 
+    if 'Employee' in user_roles:
+        user = "Employee"
     if not company_name and not fiscal_year :
         return { "error": "Data Missing" }
     
@@ -43,7 +47,7 @@ def set_default_settings(data):
         frappe.defaults.set_user_default("company", company_name)
         frappe.defaults.set_user_default("fiscal_year", fiscal_year)
         
-        return { "message": "Defaults set successfully." }
+        return { "message": "Defaults set successfully.", "user": user }
     except Exception as e:
         return { "error": str(e) }
 
@@ -157,27 +161,76 @@ def email_pay_slip(pay_slips=None, raw_data=None):
 def get_pay_slip_report(year=None,month=None, curr_user=None):
     
     user_roles = frappe.get_roles(curr_user)
-    
     if 'All' in user_roles or 'HR User' in user_roles or 'HR Manager' in user_roles:
-        records = frappe.db.get_all("Pay Slips",
-                                    filters={"year": year, "month_num": month,},
-                                    fields=["name", "employee_name","net_payble_amount"]
-                                    )
+        records = frappe.db.sql("""
+                                SELECT
+                                        name,
+                                        employee_name,
+                                        personal_email,
+                                        date_of_joining,
+                                        basic_salary,
+                                        standard_working_days,
+                                        actual_working_days,
+                                        full_day_working_days,
+                                        sundays_working_days,
+                                        half_day_working_days,
+                                        three_four_quarter_days_working_days,
+                                        quarter_day_working_days,
+                                        lates_days,
+                                        absent,
+                                        full_day_working_amount,
+                                        sunday_working_amount,
+                                        half_day_working_amount,
+                                        three_four_quarter_days_working_amount,
+                                        quarter_day_working_amount,
+                                        lates_amount,
+                                        total,
+                                        adjustments,
+                                        other_earnings_amount,
+                                        other_ernings_holidays_amount,
+                                        net_payble_amount
+                                FROM `tabPay Slips` WHERE year = %s AND month_num = %s
+                            """,(year,month),as_dict=True)
+        
+        
     else:
         data = frappe.db.sql("""SELECT name FROM tabEmployee WHERE personal_email = %s  OR company_email = %s;""",(curr_user,curr_user),as_dict=True)
-        
+       
         if not data:
             return frappe.throw("No Employee Data found or you don't have access!")
         
         employee_id = data[0].get('name')
-        
-        records = frappe.db.get_all("Pay Slips",
-                                    filters={"year": year, "month_num": month,'employee_id':employee_id,},
-                                    fields=["name", "employee_name","net_payble_amount"]
-                                    )
-    
+        records = frappe.db.sql("""
+                                SELECT
+                                        name,
+                                        employee_name,
+                                        personal_email,
+                                        date_of_joining,
+                                        basic_salary,
+                                        standard_working_days,
+                                        actual_working_days,
+                                        full_day_working_days,
+                                        sundays_working_days,
+                                        half_day_working_days,
+                                        three_four_quarter_days_working_days,
+                                        quarter_day_working_days,
+                                        lates_days,
+                                        absent,
+                                        full_day_working_amount,
+                                        sunday_working_amount,
+                                        half_day_working_amount,
+                                        three_four_quarter_days_working_amount,
+                                        quarter_day_working_amount,
+                                        lates_amount,
+                                        total,
+                                        adjustments,
+                                        other_earnings_amount,
+                                        other_ernings_holidays_amount,
+                                        net_payble_amount
+                                FROM `tabPay Slips` WHERE year = %s AND month_num = %s AND employee_id = %s
+                            """,(year,month,employee_id),as_dict=True)
     if not records:
-        return frappe.throw("No records found!")
+        return frappe.msgprint(msg='No records found',title='Warning!')
     return records
 
 # API to approve pay slip request
@@ -341,7 +394,8 @@ def get_pay_slip_request(date=None,requested_by=None):
 #API to print pay slip
 @frappe.whitelist(allow_guest=True)
 def print_pay_slip(pay_slips):
-    return frappe.throw("Coming Soon!")
+    return frappe.msgprint("Coming Soon!")
     pay_slips = json.loads(pay_slips)
     for pay_slip in pay_slips:
         frappe.utils.print_format.download_pdf('Pay Slips', pay_slip, format='Pay Slip Format')
+

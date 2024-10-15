@@ -3,14 +3,27 @@
  "creation": "2024-09-26 18:49:00.468448",
  "docstatus": 0,
  "doctype": "Page",
- "idx": 0,
- "modified": "2024-09-26 18:49:00.468448",
+ "idx": 4,
+ "modified": "2024-10-15 13:43:53.016990",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "pay-slips-report",
  "owner": "Administrator",
  "page_name": "pay-slips-report",
- "roles": [],
+ "roles": [
+  {
+   "role": "HR Manager"
+  },
+  {
+   "role": "HR User"
+  },
+  {
+   "role": "Administrator"
+  },
+  {
+   "role": "System Manager"
+  }
+ ],
  "script": null,
  "standard": "Yes",
  "style": null,

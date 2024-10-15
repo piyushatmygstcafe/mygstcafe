@@ -1,6 +1,7 @@
 {
+ "app": "mygstcafe",
  "charts": [],
- "content": "[{\"id\":\"V14h1-91f2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MYGSTCAFE</span>\",\"col\":12}},{\"id\":\"6et173Omz2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slip Report\",\"col\":3}},{\"id\":\"Ds37UBsrh5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create Pay Slip\",\"col\":3}},{\"id\":\"JPIZ0Fv3gv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slip List\",\"col\":3}},{\"id\":\"Hrx12zEMGX\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Request For Slip\",\"col\":3}}]",
+ "content": "[{\"id\":\"V14h1-91f2\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">MYGSTCAFE</span>\",\"col\":12}},{\"id\":\"Hrx12zEMGX\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Request For Slip\",\"col\":3}},{\"id\":\"6et173Omz2\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slip Report\",\"col\":3}},{\"id\":\"Ds37UBsrh5\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Create Pay Slip\",\"col\":3}},{\"id\":\"JPIZ0Fv3gv\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Pay Slip List\",\"col\":3}}]",
  "creation": "2024-09-04 13:30:55.175888",
  "custom_blocks": [],
  "docstatus": 0,
@@ -8,12 +9,12 @@
  "for_user": "",
  "hide_custom": 0,
  "icon": "workflow",
- "idx": 0,
+ "idx": 3,
  "indicator_color": "green",
  "is_hidden": 0,
  "label": "MYGSTCAFE",
  "links": [],
- "modified": "2024-10-04 11:15:21.298511",
+ "modified": "2024-10-15 13:51:47.199698",
  "modified_by": "Administrator",
  "module": "MYGSTCAFE",
  "name": "MYGSTCAFE",
@@ -22,13 +23,16 @@
  "parent_page": "",
  "public": 1,
  "quick_lists": [],
- "roles": [
-  {
-   "role": "Employee"
-  }
- ],
+ "roles": [],
  "sequence_id": 1.0,
  "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "New",
+   "label": "Pay Slip Report",
+   "link_to": "pay-slips-report",
+   "type": "Page"
+  },
   {
    "color": "Grey",
    "doc_view": "New",
@@ -52,14 +56,6 @@
    "link_to": "Create Pay Slips",
    "stats_filter": "[]",
    "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Pay Slip Report",
-   "link_to": "pay-slips-report",
-   "type": "Page",
-   "url": "/app/pay-slips-report"
   }
  ],
  "title": "MYGSTCAFE"

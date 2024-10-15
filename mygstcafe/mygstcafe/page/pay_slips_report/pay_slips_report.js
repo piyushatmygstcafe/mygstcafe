@@ -1,16 +1,18 @@
 frappe.pages["pay-slips-report"].on_page_load = function (wrapper) {
-  var page = frappe.ui.make_app_page({
+  const page = frappe.ui.make_app_page({
     parent: wrapper,
     title: "Pay Slips",
     single_column: true,
   });
 
-  let $form = $(`
+  const currentYear = new Date().getFullYear();
+
+  const $form = $(`
     <div class="row">
         <!-- Year Field -->
         <div class="col-md-3 form-group">
             <label for="year">Year</label>
-            <input type="number" id="year" class="form-control" placeholder="Enter year" min="1000" max="9999" value="${new Date().getFullYear()}">
+            <input type="number" id="year" class="form-control" placeholder="Enter year" min="1000" max="9999" value="${currentYear}">
         </div>
 
         <!-- Month Field -->
@@ -18,18 +20,15 @@ frappe.pages["pay-slips-report"].on_page_load = function (wrapper) {
             <label for="month">Month</label>
             <select id="month" class="form-control">
                 <option value="">Select month</option>
-                <option value="1">January</option>
-                <option value="2">February</option>
-                <option value="3">March</option>
-                <option value="4">April</option>
-                <option value="5">May</option>
-                <option value="6">June</option>
-                <option value="7">July</option>
-                <option value="8">August</option>
-                <option value="9">September</option>
-                <option value="10">October</option>
-                <option value="11">November</option>
-                <option value="12">December</option>
+                ${[...Array(12)]
+                  .map(
+                    (_, i) =>
+                      `<option value="${i + 1}">${new Date(0, i).toLocaleString(
+                        "default",
+                        { month: "long" }
+                      )}</option>`
+                  )
+                  .join("")}
             </select>
         </div>
 
@@ -55,15 +54,18 @@ frappe.pages["pay-slips-report"].on_page_load = function (wrapper) {
   `).appendTo(page.body);
 
   // Fetch records on button click
-
   $form.find("#fetch_records").click(function () {
-    let year = $form.find("#year").val();
+    const year = $form.find("#year").val();
     if (year < 1000 || year > 9999) {
-      return frappe.throw("Invalid Year!");
+      frappe.throw("Invalid Year!");
+      return;
     }
-    let month = $form.find("#month").val();
+    const actionButton = document.getElementById("action_button");
+    actionButton.style.display = "none";
+
+    const month = $form.find("#month").val();
     if (year && month) {
-      currUser = frappe.session.user_email;
+      const currUser = frappe.session.user_email;
       frappe.call({
         method: "mygstcafe.api.get_pay_slip_report",
         args: {
@@ -72,70 +74,109 @@ frappe.pages["pay-slips-report"].on_page_load = function (wrapper) {
           curr_user: currUser,
         },
         callback: function (res) {
-          if (res.message) {
-            records = res.message;
-            pay_slip_list(records);
+          if (res.message && res.message.length) {
+            pay_slip_list(res.message);
             $form.find("#fetch_records").hide();
+          } else {
+            document.getElementById("pay_slip_table").innerHTML = "";
+            frappe.msgprint("No records found.");
+            $form.find("#fetch_records").show();
           }
         },
       });
     } else {
-      frappe.msgprint("Please select both year and month");
+      frappe.msgprint(
+        (msg = "Please select both year and month"),
+        (title = "Warning")
+      );
     }
+  });
+
+  // Detect change in the month dropdown
+  $form.find("#month").on("change", function () {
+    $form.find("#fetch_records").show();
   });
 };
 
 function pay_slip_list(records) {
-  let table = `<table class="table table-bordered">
+  let table = `
+                <div style="overflow-x: auto; max-width: 100%;">
+                <table class="table table-bordered scrollable-table">
                     <thead>
                         <tr>
-                            <th>Select</th>
-                            <th>Pay Slip</th>
-                            <th>Employee Name</th>
-                            <th>Salary</th>
+                            <th style="position: sticky; background: #888; color: black; left: 0px; z-index: 2;">Select</th>
+                            <th style="position: sticky; background: #888; color: black; left: 60px; z-index: 2;">Pay Slip</th>
+                            <th style="position: sticky; background: #888; color: black; left: 160px; z-index: 2;">Employee Name</th>
+                            <th style="position: sticky; background: #888; color: black; left: 245px; z-index: 2;">Email</th>
+                            <th style="position: sticky; background: #888; color: black; left: 450px; z-index: 2;">Date Of Joining</th>
+                            <th style="position: sticky; background: #888; color: black; left: 550px; z-index: 2;">Basic Salary</th>
+                            <th>Standard Working Day</th>
+                            <th>Actual Days Of Working</th>
+                            <th>Full Day Working</th>
+                            <th>Sunday Working</th>
+                            <th>Half Day Working</th>
+                            <th>3/4 Day Working</th>
+                            <th>Quarter Day Working</th>
+                            <th>Late Coming Penalty -1 Hour</th>
+                            <th>Leaves</th>
+                            <th>Total Monthly Salary</th>
+                            <th>Sunday Workings</th>
+                            <th>Total Other Earnings</th>
+                            <th>Other Adjustments - Less</th>
+                            <th>Takeaway Salary</th>
                         </tr>
                     </thead>
-                    <tbody>`;
+                    <tbody>
+  `;
 
   records.forEach((record) => {
     table += `<tr>
-                    <td><input type="checkbox" value="${record.name}" /></td>
-                    <td><a href="/app/pay-slips/${record.name}">${record.name}</a></td>
-                    <td>${record.employee_name}</td>
+                    <td style="position: sticky; background: #888; color: black; left: 0px; z-index: 2;"><input type="checkbox" value="${record.name}" style="color: black;" /></td>
+                    <td style="position: sticky; background: #888; color: black; left: 60px; z-index: 2;"><a href="/app/pay-slips/${record.name}" style="color: black;">${record.name}</a></td>
+                    <td style="position: sticky; background: #888; color: black; left: 160px; z-index: 2;">${record.employee_name}</td>
+                    <td style="position: sticky; background: #888; color: black; left: 245px; z-index: 2;">${record.personal_email}</td>
+                    <td style="position: sticky; background: #888; color: black; left: 450px; z-index: 2;">${record.date_of_joining}</td>
+                    <td style="position: sticky; background: #888; color: black; left: 550px; z-index: 2;">${record.basic_salary}</td>
+                    <td>${record.standard_working_days}</td>
+                    <td>${record.actual_working_days}</td>
+                    <td>${record.full_day_working_days}</td>
+                    <td>${record.sundays_working_days}</td>
+                    <td>${record.half_day_working_days}</td>
+                    <td>${record.three_four_quarter_days_working_days}</td>
+                    <td>${record.quarter_day_working_days}</td>
+                    <td>${record.lates_days}</td>
+                    <td>${record.absent}</td>
+                    <td>${record.total}</td>
+                    <td>${record.sunday_working_amount}</td>
+                    <td>${record.other_earnings_amount}</td>
+                    <td>${record.adjustments}</td>
                     <td>${record.net_payble_amount}</td>
-                  </tr>`;
+                    </tr>`;
   });
 
-  table += `</tbody></table>`;
-
+  table += `</tbody></table></div>`;
   document.getElementById("pay_slip_table").innerHTML = table;
 
-  document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
-    checkbox.addEventListener("change", (event) => {
-      const actionButton = document.getElementById("action_button");
-      const anyChecked =
-        document.querySelectorAll('input[type="checkbox"]:checked').length > 0;
-
-      if (anyChecked) {
-        actionButton.style.display = "inline-block";
-      } else {
-        actionButton.style.display = "none";
-      }
-    });
-  });
-
+  // Update action button visibility based on checkbox selection
+  updateActionButtonVisibility();
   // Email Pay Slips Action
   document
     .getElementById("email_pay_slips")
     .addEventListener("click", function () {
-      let selected_rows = get_selected();
+      const selectedRows = get_selected();
+      if (selectedRows.length === 0) {
+        frappe.msgprint("No Pay Slips selected to email.");
+        return;
+      }
       frappe.call({
         method: "mygstcafe.api.email_pay_slip",
         args: {
-          pay_slips: selected_rows,
+          pay_slips: selectedRows,
         },
         callback: function (res) {
-          console.log(res);
+          if (res.message) {
+            frappe.msgprint("Pay slips emailed successfully.");
+          }
         },
         error: function (res) {
           frappe.msgprint(res.message);
@@ -147,17 +188,16 @@ function pay_slip_list(records) {
   document
     .getElementById("print_pay_slips")
     .addEventListener("click", function () {
-      let selected_rows = get_selected();
-      if (!selected_rows.length) {
-        console.warn("No Pay Slips selected for printing.");
+      const selectedRows = get_selected();
+      if (!selectedRows.length) {
+        frappe.msgprint("No Pay Slips selected to print.");
         return;
       }
-
-      selected_rows.forEach((pay_slip) => {
+      selectedRows.forEach((pay_slip) => {
         frappe.call({
           method: "mygstcafe.api.print_pay_slip",
           args: {
-            pay_slips: JSON.stringify(selected_rows),
+            pay_slips: JSON.stringify(selectedRows),
           },
           callback: function (r) {
             if (!r.exc) {
@@ -178,10 +218,24 @@ function pay_slip_list(records) {
       });
     });
 }
+function updateActionButtonVisibility() {
+  document.querySelectorAll('input[type="checkbox"]').forEach((checkbox) => {
+    checkbox.addEventListener("change", (event) => {
+      const actionButton = document.getElementById("action_button");
+      const anyChecked =
+        document.querySelectorAll('input[type="checkbox"]:checked').length > 0;
 
-// Function to Get Selected Pay Slips
+      actionButton.style.display = anyChecked ? "inline-block" : "none";
+    });
+  });
+}
+
 function get_selected() {
-  return Array.from(
-    document.querySelectorAll('input[type="checkbox"]:checked')
-  ).map((checkbox) => checkbox.value);
+  const selected = [];
+  document
+    .querySelectorAll('input[type="checkbox"]:checked')
+    .forEach((checkbox) => {
+      selected.push(checkbox.value);
+    });
+  return selected;
 }

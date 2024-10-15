@@ -1,4 +1,5 @@
 {
+ "app": "mygstcafe",
  "charts": [],
  "content": "[{\"id\":\"9kY91PITmm\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Employee Dashboard</span>\",\"col\":12}},{\"id\":\"vLaUcUk7-4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mark Attendance\",\"col\":3}}]",
  "creation": "2024-10-03 13:02:06.868065",
@@ -13,9 +14,9 @@
  "is_hidden": 0,
  "label": "Employee Dashboard",
  "links": [],
- "modified": "2024-10-03 13:07:46.823102",
+ "modified": "2024-10-08 12:20:25.853060",
  "modified_by": "Administrator",
- "module": "MYGSTCAFE",
+ "module": "Employee Management",
  "name": "Employee Dashboard",
  "number_cards": [],
  "owner": "Administrator",
@@ -25,6 +26,12 @@
  "roles": [
   {
    "role": "Employee"
+  },
+  {
+   "role": "HR Manager"
+  },
+  {
+   "role": "HR User"
   }
  ],
  "sequence_id": 32.0,
