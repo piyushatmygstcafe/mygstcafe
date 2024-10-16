@@ -4,7 +4,7 @@ frappe.pages["set-defaults"].on_page_load = function (wrapper) {
     title: "",
     single_column: true,
   });
-
+  
   $(`
 	  <div style="display: flex; height: 200px; justify-content: center; align-items: center;">
 		<div id="company-selection-container" style="display: flex; flex-direction: column; gap:10px; align-items: center;">
