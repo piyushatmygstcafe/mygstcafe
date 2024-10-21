@@ -1,7 +1,7 @@
 {
  "app": "mygstcafe",
  "charts": [],
- "content": "[{\"id\":\"9kY91PITmm\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Employee Dashboard</span>\",\"col\":12}},{\"id\":\"vLaUcUk7-4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mark Attendance\",\"col\":3}},{\"id\":\"ctJqC8JkYV\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Request For Pay Slip\",\"col\":3}}]",
+ "content": "[{\"id\":\"9kY91PITmm\",\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Employee Dashboard</span>\",\"col\":12}},{\"id\":\"vLaUcUk7-4\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Mark Attendance\",\"col\":3}}]",
  "creation": "2024-10-03 13:02:06.868065",
  "custom_blocks": [],
  "docstatus": 0,
@@ -14,7 +14,7 @@
  "is_hidden": 0,
  "label": "Employee Dashboard",
  "links": [],
- "modified": "2024-10-15 18:16:02.430622",
+ "modified": "2024-10-21 15:20:24.041975",
  "modified_by": "Administrator",
  "module": "Employee Management",
  "name": "Employee Dashboard",
@@ -41,14 +41,6 @@
    "doc_view": "New",
    "label": "Mark Attendance",
    "link_to": "Employee Checkin",
-   "stats_filter": "[]",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "List",
-   "label": "Request For Pay Slip",
-   "link_to": "Request Pay Slip",
    "stats_filter": "[]",
    "type": "DocType"
   }
