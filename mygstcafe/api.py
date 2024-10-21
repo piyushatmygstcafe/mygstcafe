@@ -236,6 +236,7 @@ def get_pay_slip_report(year=None,month=None, curr_user=None):
 # API to approve pay slip request
 @frappe.whitelist(allow_guest=True)
 def approve_pay_slip_req(employee,month,year):
+    
     self = []
     if frappe.db.exists("Pay Slips", {'employee_id':employee,'month_num':month,'year':year}):
         pay_slip = frappe.get_doc("Pay Slips",{'employee_id':employee,'month_num':month,'year':year})
