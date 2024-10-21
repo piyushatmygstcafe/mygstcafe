@@ -398,4 +398,3 @@ def print_pay_slip(pay_slips):
     pay_slips = json.loads(pay_slips)
     for pay_slip in pay_slips:
         frappe.utils.print_format.download_pdf('Pay Slips', pay_slip, format='Pay Slip Format')
-
