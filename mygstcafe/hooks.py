@@ -1,8 +1,8 @@
-app_name = "mygstcafe"
-app_title = "MYGSTCAFE"
-app_publisher = "mygstcafe"
+app_name = "pinnacle"
+app_title = "pinnacle"
+app_publisher = "Opticode Technologies Private Limited"
 app_description = "An app for management"
-app_email = "piyushs@mygstcafe.in"
+app_email = "admins@mygstcafe.in"
 app_license = "mit"
 
 import mygstcafe.after_install
