@@ -2,7 +2,7 @@ from collections import defaultdict
 from datetime import datetime
 import frappe
 from hrms.payroll.doctype.salary_slip.salary_slip import *
-from mygstcafe.salary_calculation import calculate_monthly_salary
+from pinnacle.salary_calculation import calculate_monthly_salary
 
 
 # Corrected version of get_working_days_details to accept 'self'

@@ -4,7 +4,7 @@
 import frappe
 from frappe.model.document import Document
 from collections import defaultdict
-from mygstcafe.salary_calculation import calculate_monthly_salary
+from pinnacle.salary_calculation import calculate_monthly_salary
 
 class PaySlipGenerator(Document):
 

@@ -2,11 +2,11 @@ app_name = "pinnacle"
 app_title = "pinnacle"
 app_publisher = "Opticode Technologies Private Limited"
 app_description = "An app for management"
-app_email = "admins@mygstcafe.in"
+app_email = "admin@mygstcafe.in"
 app_license = "mit"
 
-import mygstcafe.after_install
-import mygstcafe.override_auth
+import pinnacle.after_install
+import pinnacle.override_auth
 # import mygstcafe.payroll_management.add_attendance_status
 # import mygstcafe.payroll_management.calculate_salary
 

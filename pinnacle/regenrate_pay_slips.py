@@ -1,6 +1,6 @@
 import frappe
 from collections import defaultdict
-from mygstcafe.salary_calculation import calculate_monthly_salary
+from pinnacle.salary_calculation import calculate_monthly_salary
 
 @frappe.whitelist(allow_guest=True)
 def regenerate_pay_slip(selected_year, selected_month, selected_emp=None, selected_company=None):

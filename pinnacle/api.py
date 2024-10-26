@@ -8,8 +8,8 @@ from collections import defaultdict
 from frappe.core.doctype.communication.email import make
 import frappe.utils
 import frappe.utils.print_format
-from mygstcafe.salary_calculation import calculate_monthly_salary
-from mygstcafe.mygstcafe.doctype.create_pay_slips.create_pay_slips import CreatePaySlips
+from pinnacle.salary_calculation import calculate_monthly_salary
+from pinnacle.mygstcafe.doctype.create_pay_slips.create_pay_slips import CreatePaySlips
 
 # API to get default company and list
 @frappe.whitelist(allow_guest=True)
